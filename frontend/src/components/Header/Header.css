@@ -132,10 +132,15 @@
     border: none;
 }
 
-.hero .Appbtn{
+.hero .NC .Appbtn{
     background-color: rgb(255, 72, 0);
     color: #fff;
-    border:none
+    border:none;
+    margin-left: 470px;
+    margin-top: 4px;
+    padding: 7px 12px; /* Reduced padding to decrease button size */
+     /* Smaller font size for a more compact appearance */
+    border-radius: 3px;
 }
 .hero .Appbtn:hover{
     background-color: white;

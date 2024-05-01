@@ -15,12 +15,14 @@ const Header = () => {
           <Container>
             
             <Navbar.Toggle aria-controls="basic-navnar-nav" />
-            <Navbar.Collapse id="basic-navbar-nav">
+            <Navbar.Collapse class= "NC" id="basic-navbar-nav">
               <Nav className='navbar-nav'>
                 <Nav.Link href="/Home"><FaBuilding />Home</Nav.Link>
                 <Nav.Link href='/Ride'><FaBullhorn />About</Nav.Link>
-                <Nav.Link href="/Services"><FaBuffer />Doc</Nav.Link>
+                <Nav.Link href="/Services"><FaBuffer />Docs</Nav.Link>
+                <button class="Appbtn">Launch App <BsFillRocketTakeoffFill/></button>   
               </Nav>
+               
             </Navbar.Collapse>
           </Container>
         </Navbar>
@@ -29,7 +31,6 @@ const Header = () => {
           <h1>Empowering Innovations with Community-Driven Funding</h1>
           <p>Join the decentralized movement to fund and elevate groundbreaking projects..</p>
           <button>Start Funding</button>
-          <button class="Appbtn">Launch App <BsFillRocketTakeoffFill/></button>
           <button>Submit Project</button>          
         </div>
       </section>
