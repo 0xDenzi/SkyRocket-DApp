@@ -1,0 +1,38 @@
+/* Header.css */
+
+.about1 {
+    background-image: url('../../Assests/section1rotate.jpg');
+    background-size: cover;
+    background-position: center;
+    color: #fff;
+    text-align: center;
+    padding: 200px 0;
+    position: relative; 
+  }
+  
+  /* Add a shadow to the text */
+  .about1 h1,
+  .about1 p {
+    position: relative; 
+    z-index: 1; 
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  }
+    
+  /* Reduce brightness of the background image */
+  .about1 {
+    filter: brightness(100%); /* Adjust brightness as needed */
+  }
+  
+  .about1 p {
+    font-size: 1.2em;
+    margin-bottom: 30px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  }
+
+
+  
+  
+.AU {
+    color: #fff;
+}
+  

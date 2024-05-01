@@ -1,0 +1,60 @@
+.Work1 {
+    background-image: url('../../Assests/astronaut-mars-brave-explorer-spacesuit-walking-surface-red-planet-mars-colonization-concept_14117-228774.jpg');
+    background-size: cover;
+    background-position: center;
+    color: #fff;
+    text-align: center;
+    padding: 200px 0;
+    position: relative; 
+    filter: contrast(120%);
+}
+
+
+
+.heading {
+    margin-top: 100px; /* Add margin to push the content down */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.heading span {
+    font-size: 24px;
+    color: rgb(255, 255, 255);
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.heading h1 {
+    font-size: 36px;
+    color: rgb(255, 255, 255);
+}
+
+
+.ride-container{
+    display: grid;
+    align-items: center;
+    grid-template-columns:repeat(auto-fit,minmax(250px, auto));
+    gap: 1rem;
+    margin: 2rem;
+}
+
+.ride-container .box svg {
+    font-size: 35px; /* Adjust the size of the icons as needed */
+    color: rgb(255, 77, 0); /* Set the color of the icons */
+}
+
+.ride-container .box h2 {
+    font-size: 24px;
+    color: rgb(255, 255, 255);
+    padding-top: 5px;
+}
+
+.ride-container .box p {
+    font-size: 16px;
+    color: rgb(255, 255, 255);
+}
+
+.ride-container .box{
+
+    background-color: rgba(0, 0, 0, 0.5); /* Light black background color with transparency */
+    padding: 20px; /* Adjust padding as needed */
+    border-radius: 10px; /* Add border radius for rounded corners */
+}

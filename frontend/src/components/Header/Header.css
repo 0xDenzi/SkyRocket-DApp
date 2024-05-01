@@ -1,0 +1,148 @@
+/* Header.css */
+.navbar {
+    background-color: transparent !important;
+    position: fixed;
+    padding-top: 0px;
+    top: 0px;
+    left: 0;
+    right: 0;
+    z-index: 1200; /* Adjust the z-index as needed */
+}
+
+.SR{
+    padding-left: 10px;
+}
+.navbar-nav {
+    width: 100%;
+    margin-left: 540px;
+}
+
+.navbar-collapse {
+    backdrop-filter: blur(3px);
+    justify-content: space-between; /* Ensures that links are centered, and brand is left-aligned */
+}
+
+.navbar-brand {
+    margin-right: auto; /* Pushes the navigation links towards center */
+}
+
+.nav-link {
+    display: inline-flex;
+    align-items: center;
+}
+
+.nav-link svg {
+    margin-right: 5px;
+}
+
+.navbar-dark .navbar-nav .nav-link {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 17px;
+    color: rgb(255, 255, 255);
+    position: relative;
+}
+
+.navbar-dark .navbar-nav .nav-link:hover {
+    color: rgb(255, 136, 0);
+}
+
+.navbar-dark .navbar-nav .nav-link:hover::after {
+    content: '';
+    display: block;
+    position: absolute;
+    bottom: -2px; /* Adjust as needed to position the line */
+    left: 0;
+    width: 100%;
+    height: 2px; /* Thickness of the line */
+    background-color: red;
+}
+
+.navbar-dark .navbar-brand {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 21px;
+    color: rgb(255, 255, 255);
+}
+
+.navbar-dark .navbar-brand span {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 21px;
+    color: rgb(255, 72, 0);
+}
+
+.navbar-dark .navbar-toggler {
+    border-color: rgb(0, 0, 0);
+}
+
+.navbar-dark .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(0, 0, 0, 0.5)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E") !important;
+}
+
+@media (max-width: 991px) {
+    .navbar-dark .navbar-toggler-icon {
+        background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='black' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E") !important;
+    }
+}
+
+.btn {
+    margin-right: 5px;
+}
+
+.container {
+    width: 100%;
+    max-width: none;
+    margin: 0 auto;
+    padding: 0;
+}
+
+.hero {
+    background-image: url('../../Assests/section1.jpg');
+    background-size: cover;
+    background-position: center;
+    color: #fff;
+    text-align: center;
+    padding: 200px 0;
+}
+
+.hero h1 {
+    font-size: 3em;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.hero p {
+    font-size: 1.2em;
+    margin-bottom: 30px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.hero button {
+    padding: 10px 20px;
+    background-color: transparent;
+    color: white;
+    border: 1px solid white;
+    border-radius: 5px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-left: 5px;
+}
+
+.hero button:hover {
+    background-color: rgb(255, 72, 0);
+    border: none;
+}
+
+.hero .NC .Appbtn{
+    background-color: rgb(255, 72, 0);
+    color: #fff;
+    border:none;
+    margin-left: 470px;
+    margin-top: 4px;
+    padding: 7px 12px; /* Reduced padding to decrease button size */
+     /* Smaller font size for a more compact appearance */
+    border-radius: 3px;
+}
+.hero .Appbtn:hover{
+    background-color: white;
+    color: black;
+}
