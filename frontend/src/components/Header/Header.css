@@ -18,7 +18,7 @@
 }
 
 .navbar-collapse {
-    backdrop-filter: blur(1px);
+    backdrop-filter: blur(3px);
     justify-content: space-between; /* Ensures that links are centered, and brand is left-aligned */
 }
 
@@ -106,11 +106,13 @@
 .hero h1 {
     font-size: 3em;
     margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .hero p {
     font-size: 1.2em;
     margin-bottom: 30px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .hero button {
@@ -128,4 +130,14 @@
 .hero button:hover {
     background-color: rgb(255, 72, 0);
     border: none;
+}
+
+.hero .Appbtn{
+    background-color: rgb(255, 72, 0);
+    color: #fff;
+    border:none
+}
+.hero .Appbtn:hover{
+    background-color: white;
+    color: black;
 }

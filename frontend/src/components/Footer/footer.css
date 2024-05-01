@@ -1,0 +1,16 @@
+.copyright .social svg{
+    font-size: 30px;
+    padding-left: 5px;
+}
+
+.copyright .social svg:hover{
+    color: rgb(255, 106, 0);
+}
+.copyright{
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgb(0, 0, 0);
+    color: white;
+}
