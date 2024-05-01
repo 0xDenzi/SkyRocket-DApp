@@ -5,6 +5,7 @@ import { FaBuilding, FaBullhorn, FaBuffer } from 'react-icons/fa';
 import { BsFillRocketTakeoffFill } from "react-icons/bs";
 import Button from 'react-bootstrap/Button';
 import './Header.css';
+import { Link } from 'react-router-dom';
 
 const Header = () => {
   return (
@@ -20,7 +21,9 @@ const Header = () => {
                 <Nav.Link href="/Home"><FaBuilding />Home</Nav.Link>
                 <Nav.Link href='/Ride'><FaBullhorn />About</Nav.Link>
                 <Nav.Link href="/Services"><FaBuffer />Docs</Nav.Link>
-                <button class="Appbtn">Launch App <BsFillRocketTakeoffFill/></button>   
+                <Link to="/launch">
+                  <Button className="Appbtn">Launch App <BsFillRocketTakeoffFill/></Button>
+                </Link>   
               </Nav>
                
             </Navbar.Collapse>
