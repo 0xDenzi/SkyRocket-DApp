@@ -11,6 +11,14 @@ const Wrapper = styled.div`
   height: 10px
 `;
 
+const lol = styled.div`
+  background-image: url('/Assests/section2.jpg');
+  background-size: cover;
+  background-position: center;
+  border-radius: 5px;
+  height: 500px;  // Adjusted for visibility
+  border: 4px solid orange;
+`;
 
 const FormContainer = styled.div`
   background-color: #f5f5f5; /* Add a light background for the form */
@@ -18,6 +26,8 @@ const FormContainer = styled.div`
   height: 10%;
   border: 4px solid orange;
 `;
+
+
 
 const SwapForm = styled.form`
   display: flex;
