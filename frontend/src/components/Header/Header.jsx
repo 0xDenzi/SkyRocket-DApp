@@ -5,6 +5,7 @@ import { FaBuilding, FaBullhorn, FaBuffer } from 'react-icons/fa';
 import { BsFillRocketTakeoffFill } from "react-icons/bs";
 import Button from 'react-bootstrap/Button';
 import './Header.css';
+import { Link } from 'react-router-dom';
 
 const Header = () => {
   return (
@@ -18,9 +19,11 @@ const Header = () => {
             <Navbar.Collapse class= "NC" id="basic-navbar-nav">
               <Nav className='navbar-nav'>
                 <Nav.Link href="/Home"><FaBuilding />Home</Nav.Link>
-                <Nav.Link href='/Ride'><FaBullhorn />About</Nav.Link>
-                <Nav.Link href="/Services"><FaBuffer />Docs</Nav.Link>
-                <button class="Appbtn">Launch App <BsFillRocketTakeoffFill/></button>   
+                <Nav.Link href='/About'><FaBullhorn />About</Nav.Link>
+                <Nav.Link href="https://skyrocket-1.gitbook.io/docs"><FaBuffer />Docs</Nav.Link>
+                <Link to="/launch">
+                  <Button className="Appbtn">Launch App <BsFillRocketTakeoffFill/></Button>
+                </Link>   
               </Nav>
                
             </Navbar.Collapse>
@@ -30,8 +33,12 @@ const Header = () => {
         <div className="container">
           <h1>Empowering Innovations with Community-Driven Funding</h1>
           <p>Join the decentralized movement to fund and elevate groundbreaking projects..</p>
-          <button>Start Funding</button>
-          <button>Submit Project</button>          
+          <Link to="/fund">
+             <button>Start Funding</button>
+          </Link>
+          <Link to="/bajwa">
+             <button>Submit Project</button>
+          </Link>          
         </div>
       </section>
     </header>
