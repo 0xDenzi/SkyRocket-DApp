@@ -17,7 +17,7 @@ contract SkyRocketToken is ERC20 {
         string memory _symbol,
         address init
     ) ERC20(_name, _symbol) {
-        _mint(init, 25000000 ether);
+        _mint(init, 25000000e6);
     }
 
     /// @notice returns the decimals of $SKT.
