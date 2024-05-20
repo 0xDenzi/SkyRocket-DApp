@@ -9,8 +9,8 @@ import {ERC20} from "../lib/openzeppelin-contracts/contracts/token/ERC20/ERC20.s
 ///           - Fixed supply of 25,000,000 $SKT.
 contract SkyRocketToken is ERC20 {
     /// @notice Initializes the SkyRocket contract ($SKT).
-    /// @param  name_   The name of $SKT (SkyRocket).
-    /// @param  symbol_ The symbol of $SKT (SKT).
+    /// @param  _name   The name of $SKT (SkyRocket).
+    /// @param  _symbol The symbol of $SKT (SKT).
     /// @param  init    The initial address to escrow $SKT supply, prior to distribution.
     constructor(
         string memory _name,

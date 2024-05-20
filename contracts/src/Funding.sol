@@ -2,7 +2,7 @@
 pragma solidity ^0.8.19;
 
 import {IERC20} from "../lib/openzeppelin-contracts/contracts/token/ERC20/IERC20.sol";
-import {SkyRocketToken} from "SkyRocketToken.sol";
+import {SkyRocketToken} from "../src/SkyRocketToken.sol";
 import {Project} from "./Project.sol";
 
 contract Funding {
@@ -43,20 +43,20 @@ contract Funding {
     /// @param  _amount  The amount of tokens being deposited.
     function fundWithStableCoin(address _token, uint256 _amount) external {
         require(allowedTokens[_token], "Token not allowed");
-        require(amount >= 1e6, "Amount should be greater or equal to 1");
+        require(_amount >= 1e6, "Amount should be greater or equal to 1");
         address _account = msg.sender;
         totalDeposits[_account] += _amount;
-        projectDeposits[_account][project] += _amount;
+        //projectDeposits[_account][project] += _amount;
 
         PJT.fundsAccumulation(_account, _token, _amount);
         SKT.mint(_account, _amount);
     }
 
     /// @notice Allows users to fund with ether which is swapped into USDC.
-    function fundWithEther() external {
-        require(msg.value > 0, "Amount should be greater than 0");
-        // convert to usdc here
-        // update state variables
-        // mint SKT to the msg.sender
-    }
+    // function fundWithEther() external {
+    //     require(msg.value > 0, "Amount should be greater than 0");
+    //     // convert to usdc here
+    //     // update state variables
+    //     // mint SKT to the msg.sender
+    // }
 }

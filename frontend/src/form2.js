@@ -1,20 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import { ethers } from 'ethers';
+import FundingABI from '../../contracts/out/Funding.sol/Funding.json';
 
 const Wrapper = styled.div`
-  display: flex; /* Enable flexbox for centering */
-  justify-content: center; /* Horizontally center content */
-  align-items: center; /* Vertically center content (optional) */
-  /* Add padding to all sides */
-  padding: 100px; /* Adjust padding values as needed */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 100px;
 `;
 
 const SwapForm = styled.form`
   display: flex;
   flex-direction: column;
-  gap: 2rem; /* Add spacing between form elements */
+  gap: 2rem;
   width: 100%;
-  max-width: 400px; /* Set a maximum width for the form */
+  max-width: 400px;
 `;
 
 const InputContainer = styled.div`
@@ -23,12 +24,12 @@ const InputContainer = styled.div`
 `;
 
 const InputLabel = styled.label`
-  flex: 0 0 30%; /* Set label width */
+  flex: 0 0 30%;
   font-weight: bold;
 `;
 
 const Input = styled.input`
-  flex: 1; /* Allow input to fill remaining space */
+  flex: 1;
   padding: 0.5rem;
   border: 1px solid #ccc;
   border-radius: 4px;
@@ -68,40 +69,55 @@ const FeeText = styled.span`
 
 const Form1 = () => {
   const [fromAmount, setFromAmount] = useState('');
-  const [toAmount,setToAmount] = useState(''); // Assume toAmount is initially empty
+  const [selectedToken, setSelectedToken] = useState('USDC');
+  const [provider, setProvider] = useState(null);
+  const [signer, setSigner] = useState(null);
+  const [contract, setContract] = useState(null);
 
-  const handleFromAmountChange = (event) => {
-    setFromAmount(event.target.value);
-  };
+  const contractAddress = 'YOUR_CONTRACT_ADDRESS_HERE';
 
-  // Add a function to handle toAmount changes if needed (similar to handleFromAmountChange)
+  useEffect(() => {
+    if (window.ethereum) {
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const signer = provider.getSigner();
+      const contract = new ethers.Contract(contractAddress, FundingABI.abi, signer);
+      setProvider(provider);
+      setSigner(signer);
+      setContract(contract);
+    } else {
+      console.error('Please install MetaMask!');
+    }
+  }, []);
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    // Handle form submission logic here
-    console.log('Form submitted:', fromAmount, toAmount);
+    if (!contract) return;
+
+    try {
+      const tx = await contract.fundWithStableCoin(ethers.utils.getAddress(selectedToken), ethers.utils.parseUnits(fromAmount, 6));
+      await tx.wait();
+      console.log('Funded successfully:', tx);
+    } catch (error) {
+      console.error('Error funding:', error);
+    }
   };
 
   return (
     <Wrapper>
       <SwapForm onSubmit={handleSubmit}>
-        { <SwapForm onSubmit={handleSubmit}>
-      
-      <InputContainer>
-        
-        <Input type="number" value={toAmount} onChange={(e) =>setToAmount(e.target.value)} placeholder="0.00" />
-        <Select>
-          <option value="USDC">USDC</option>
-          <option value="DAI">DAI</option>
-          <option value="USDT">USDT</option>
-        </Select>
-      </InputContainer>
-      <SwapInfo>
-        <SwapInfoText>1 ETH = 0.0000 USDC (15%)</SwapInfoText>
-        <FeeText>Fee: - ETH</FeeText>
-      </SwapInfo>
-      <Button type="submit">Fund</Button>
-    </SwapForm>}
+        <InputContainer>
+          <Input type="number" value={fromAmount} onChange={(e) => setFromAmount(e.target.value)} placeholder="0.00" />
+          <Select onChange={(e) => setSelectedToken(e.target.value)}>
+            <option value="0xADDRESS_FOR_USDC">USDC</option>
+            <option value="0xADDRESS_FOR_DAI">DAI</option>
+            <option value="0xADDRESS_FOR_USDT">USDT</option>
+          </Select>
+        </InputContainer>
+        <SwapInfo>
+          <SwapInfoText>1 ETH = 0.0000 USDC (15%)</SwapInfoText>
+          <FeeText>Fee: - ETH</FeeText>
+        </SwapInfo>
+        <Button type="submit">Fund</Button>
       </SwapForm>
     </Wrapper>
   );
