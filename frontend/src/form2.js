@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { ethers } from 'ethers';
-import FundingABI from '../../contracts/out/Funding.sol/Funding.json';
+import FundingABI from '../src/abis/Funding.json';
 
 const Wrapper = styled.div`
   display: flex;
@@ -60,21 +60,28 @@ const SwapInfo = styled.div`
 `;
 
 const SwapInfoText = styled.span`
-  color: #000000
+  color: #000000;
 `;
 
 const FeeText = styled.span`
-  color: #000000
+  color: #000000;
 `;
 
 const Form1 = () => {
   const [fromAmount, setFromAmount] = useState('');
-  const [selectedToken, setSelectedToken] = useState('USDC');
+  const [selectedToken, setSelectedToken] = useState('0x88DD019E2070E61B0300c9F1206a7265eb322122'); // USDC token address
   const [provider, setProvider] = useState(null);
   const [signer, setSigner] = useState(null);
   const [contract, setContract] = useState(null);
 
-  const contractAddress = 'YOUR_CONTRACT_ADDRESS_HERE';
+  const ERC20_ABI = [
+    // Only include the functions you need
+    "function approve(address spender, uint256 amount) external returns (bool)",
+    "function allowance(address owner, address spender) external view returns (uint256)"
+  ];
+  
+
+  const contractAddress = '0xB19aB8f4024D1F2fF24932F6622B906439e08d27'; // funding.sol
 
   useEffect(() => {
     if (window.ethereum) {
@@ -92,15 +99,34 @@ const Form1 = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (!contract) return;
-
+  
+    const tokenContract = new ethers.Contract(selectedToken, ERC20_ABI, signer);
+    const fundingAmount = ethers.utils.parseUnits(fromAmount, 6); // Adjust the '6' based on the token's decimals
+  
     try {
-      const tx = await contract.fundWithStableCoin(ethers.utils.getAddress(selectedToken), ethers.utils.parseUnits(fromAmount, 6));
-      await tx.wait();
-      console.log('Funded successfully:', tx);
+      // Check current allowance
+      const allowance = await tokenContract.allowance(signer.getAddress(), contract.address);
+      if (allowance.lt(fundingAmount)) {
+        // Not enough allowance, need to approve
+        const approveTx = await tokenContract.approve(contract.address, fundingAmount);
+        await approveTx.wait();
+        console.log('Approval successful');
+      }
+  
+      // Proceed to fund
+      const fundTx = await contract.fundWithStableCoin(
+        ethers.utils.getAddress(selectedToken),
+        fundingAmount,
+        { gasLimit: 5000000 } // Optional: Adjust gas limit as necessary
+      );
+      await fundTx.wait();
+      console.log('Funded successfully:', fundTx);
     } catch (error) {
-      console.error('Error funding:', error);
+      console.error('Error during the funding process:', error);
     }
   };
+  
+  
 
   return (
     <Wrapper>
@@ -108,9 +134,9 @@ const Form1 = () => {
         <InputContainer>
           <Input type="number" value={fromAmount} onChange={(e) => setFromAmount(e.target.value)} placeholder="0.00" />
           <Select onChange={(e) => setSelectedToken(e.target.value)}>
-            <option value="0xADDRESS_FOR_USDC">USDC</option>
-            <option value="0xADDRESS_FOR_DAI">DAI</option>
-            <option value="0xADDRESS_FOR_USDT">USDT</option>
+            <option value="0x88DD019E2070E61B0300c9F1206a7265eb322122">USDC</option> 
+            <option value="0x387Ac9a53478308FB12580Ce82a798De78670830">DAI</option>
+            <option value="0x34c1ec11E2c50799e2B65CF996dF9CE09B296D39">USDT</option>
           </Select>
         </InputContainer>
         <SwapInfo>
