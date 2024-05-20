@@ -101,7 +101,7 @@ contract Project {
         uint256 _amount
     ) external onlyFunding onlyUnpaused {
         IERC20(_token).transferFrom(_account, address(this), _amount);
-        projects[projectCounter - 1].amountRaised += _amount;
+        // projects[projectCounter - 1].amountRaised += _amount;
     }
 
     /// @notice Transfers funds from this contract to the fundseekers.
