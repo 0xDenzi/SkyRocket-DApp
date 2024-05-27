@@ -99,7 +99,9 @@ const Form = ({ activeForm }) => {
   const FormContent = currentForm === 'Form1' ? <Form1 /> : <Form2 />;
 
   return (
+    <div className='body-fund'>
     <Wrapper>
+      
         <div className='lol'>
             <div id='innerDiv'>
             <Button
@@ -119,8 +121,9 @@ const Form = ({ activeForm }) => {
                 {FormContent}
             </FormContainer> 
         </div>
-      
+        
     </Wrapper>
+    </div>
   );
 };
 

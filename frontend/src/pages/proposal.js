@@ -1,10 +1,10 @@
 import Form from "../proposal"
 
 
-const Bajwa = () => {
+const Proposal = () => {
     return (
       <Form/>
     )
   }
   
-  export default Bajwa
+  export default Proposal

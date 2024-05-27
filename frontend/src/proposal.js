@@ -19,27 +19,28 @@ const Form = () => {
   };
 
   return (
-    
-    <div className="form-container">
-      <h2 className="form-heading">Submit Your Application</h2>
-      <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label htmlFor="name" className="form-label">Company Name:</label>
-          <input type="text" id="name" value={name} onChange={(e) => setName(e.target.value)} required className="form-input" />
-        </div>
-        <div className="form-group">
-          <label htmlFor="projectTitle" className="form-label">Project Title:</label>
-          <input type="text" id="projectTitle" value={projectTitle} onChange={(e) => setProjectTitle(e.target.value)} required className="form-input" />
-        </div>
-        <div className="form-group">
+    <div className="body-proposal">
+      <div className="form-container">
+        <h2 className="form-heading">Submit Your Application</h2>
+        <form onSubmit={handleSubmit}>
+          <div className="form-group">
+            <label htmlFor="name" className="form-label">Company Name:</label>
+            <input type="text" id="name" value={name} onChange={(e) => setName(e.target.value)} required className="form-input" />
+          </div>
+          <div className="form-group">
+            <label htmlFor="projectTitle" className="form-label">Project Title:</label>
+            <input type="text" id="projectTitle" value={projectTitle} onChange={(e) => setProjectTitle(e.target.value)} required className="form-input" />
+          </div>
+          <div className="form-group">
 
-          <label htmlFor="description" className="form-label">Description:</label>
-<div className="styleit">
-          <textarea id="description" value={description} onChange={(e) => setDescription(e.target.value)} required className="form-textarea" />
-        </div>
-        </div>
-        <button type="submit" className="form-button">Submit</button>
-      </form>
+            <label htmlFor="description" className="form-label">Description:</label>
+  <div className="styleit">
+            <textarea id="description" value={description} onChange={(e) => setDescription(e.target.value)} required className="form-textarea" />
+          </div>
+          </div>
+          <button type="submit" className="form-button">Submit</button>
+        </form>
+      </div>
     </div>
   );
 };

@@ -1,7 +1,11 @@
-body {
-    background: url("bg-1.png") no-repeat;
+.body-fund {
+    background: url("../Assests/bg-1.png") no-repeat;
     background-color: #070709;
+    background-size: cover;
+    background-attachment: fixed;
     color: white;
+    height:100vh;
+    z-index: 0;
   }
   
   .title {

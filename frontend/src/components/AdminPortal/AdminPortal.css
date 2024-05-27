@@ -1,0 +1,117 @@
+.body-admin {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(to bottom left, #E3C6AB, #9E9B9A, #BC7C4B); /* Gradient background */
+}
+.navbar-admin {
+  background-color: #a09c9a; /* Adjusted navbar color */
+  color: white;
+  padding: 15px 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  box-sizing: border-box;
+  z-index: 1;
+}
+.navbar-admin h1 {
+  margin: 0;
+  font-size: 24px;
+}
+.connect-wallet {
+  position: absolute;
+  right: 20px;
+  background-color: #C35833; /* Adjusted button color */
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+}
+.admin-portal {
+  width: 80%;
+  display: flex;
+  justify-content: space-evenly;
+  margin-top: 60px; /* Space for navbar */
+  flex-wrap: wrap;
+  position: relative;
+}
+.section {
+  width: 30%;
+  background-color: #BFAEA2; /* Lighter background for sections */
+  padding: 20px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 10px;
+}
+.input-box {
+  background-color: #C99872; /* Lighter input box color */
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  margin: 10px;
+  border-radius: 5px;
+  font-size: 16px;
+  width: 100%;
+  box-sizing: border-box;
+  text-align: center;
+}
+.button {
+  background-color: #C99872; /* Lighter button color */
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  margin: 10px;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+}
+.red-button {
+  background-color: #C35833; /* Red button */
+  width: 80%; /* Larger button */
+  margin: 20px 0;
+}
+.vertical-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.vertical-section {
+  width: 100%;
+  margin: 10px;
+}
+.force-release-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 20px; /* Margin to separate from the section above */
+}
+.force-release-button {
+  background-color: #C35833; /* Red button */
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+}
+.bottom-buttons {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+.bottom-buttons .button {
+  margin: 0 10px;
+  width: 150px; /* Smaller width for Pause and Unpause buttons */
+}

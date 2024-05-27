@@ -2,7 +2,7 @@ import React from "react";
 import { useEffect, useState } from "react";
 import { Nav, NavLink, NavMenu, LaunchButton, NavLinkButton } from "./Navbar/NavbarElements";
 import { Link } from 'react-router-dom'; // Use Link for client-side navigation
-import './App.css'; // Importing CSS from App.css
+import './fund.css'; // Importing CSS from App.css
 
 const Navbar = () => {
   const [walletAddress, setWalletAddress] = useState("");
@@ -77,9 +77,11 @@ const Navbar = () => {
           <div style={{
             display: "flex",
             alignItems: "center",
+            justifyContent: "center",
+            marginRight: "880px",
           }}>
             <NavLinkButton to="/fund">Fund</NavLinkButton>
-            <NavLinkButton to="/governance">Governance</NavLinkButton>
+            <NavLinkButton to="/governance">Proposal</NavLinkButton>
           </div>
           <LaunchButton className="button is-white connect-wallet" onClick={connectWallet} style={{ margin: '0px 60px 0 0' }}>
             <span className="is-link has-text-weight-bold">

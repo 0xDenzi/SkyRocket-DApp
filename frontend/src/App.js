@@ -1,11 +1,15 @@
 import React from "react";
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
+
 import Home from "./pages/home";
 import Fund from "./pages/fund";
 import Gov from "./pages/gov";
-import './App.css'; // Import CSS file for styling
-import Bajwa from "./pages/Bajwa";
+import Proposal from "./pages/proposal";
+import AdminPortal from "./pages/adminportal";
+
 import Navbar from "./components/Navbar"; // Import the Navbar component
+
+
 
 function App() {
   return (
@@ -19,7 +23,8 @@ function App() {
             <Route path="/launch" element={<Fund />} /> {/* Launch page route */}
             <Route path="/fund" element={<Fund />} /> {/* Fund page route */}
             <Route path="/governance" element={<Gov />} /> {/* Governance page route */}
-            <Route path="/bajwa" element={<Bajwa />} />
+            <Route path="/proposal" element={<Proposal />} /> 
+            <Route path="/admin" element={<AdminPortal />} />
             {/* Add other routes as necessary */}
           </Routes>
         </div>
