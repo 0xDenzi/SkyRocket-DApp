@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 
 import Home from "./pages/home";
 import Fund from "./pages/fund";
-import Gov from "./pages/gov";
+import ProposalForum from "./pages/forum";
 import Proposal from "./pages/proposal";
 import AdminPortal from "./pages/adminportal";
 
@@ -22,8 +22,7 @@ function App() {
             <Route path="/" element={<Home />} /> {/* Home page route */}
             <Route path="/launch" element={<Fund />} /> {/* Launch page route */}
             <Route path="/fund" element={<Fund />} /> {/* Fund page route */}
-            <Route path="/governance" element={<Gov />} /> {/* Governance page route */}
-            <Route path="/proposal" element={<Proposal />} /> 
+            <Route path="/proposal" element={<ProposalForum />} /> 
             <Route path="/admin" element={<AdminPortal />} />
             {/* Add other routes as necessary */}
           </Routes>

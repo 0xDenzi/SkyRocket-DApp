@@ -2,128 +2,88 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import Form1 from './form1';
 import Form2 from './form2';
+import Stars from './Assests/stars.jpg';
 
-const Wrapper = styled.div`
-  display: flex; /* Enable flexbox for centering */
-  justify-content: center; /* Horizontally center content */
-  align-items: flex-start; /* Vertically align content at the top */
-  padding: 50px; /* Adjust padding values as needed */
-  height: 10px
-`;
-
-const lol = styled.div`
-  background-image: url('/Assests/section2.jpg');
+// Styled Components
+// Styled Components
+const OuterContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 92.2vh; // Ensure full viewport height
+  padding: 50px;
+  background-image: url(${Stars}); // Use the imported Stars image
   background-size: cover;
   background-position: center;
-  border-radius: 5px;
-  height: 500px;  // Adjusted for visibility
-  border: 4px solid orange;
 `;
 
-const FormContainer = styled.div`
-  background-color: #f5f5f5; /* Add a light background for the form */
-  border-radius: 5px; /* Add subtle border rounding */
-  height: 10%;
-  border: 4px solid orange;
+const Wrapper = styled.div`
+  width: 500px; // Set a fixed width
+  background-color: #131722;
+  border-radius: 20px;
+  overflow: hidden; // Ensures no internal content spills out
+  box-shadow: 0 0 8px 2px rgba(33, 114, 229, 0.75); // Neon blue glow effect applied here
 `;
 
-
-
-const SwapForm = styled.form`
+const ButtonContainer = styled.div`
   display: flex;
-  flex-direction: column;
-  gap: 2rem; /* Add spacing between form elements */
-  width: 10%;
-  max-width: 10px; /* Set a maximum width for the form */
-`;
-
-const InputContainer = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
-const InputLabel = styled.label`
-  flex: 0 0 30%; /* Set label width */
-  font-weight: bold;
-`;
-
-const Input = styled.input`
-  flex: 1; /* Allow input to fill remaining space */
-  padding: 0.5rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-`;
-
-const Select = styled.select`
-  flex: 1;
-  padding: 0.5rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  background-color: #282d37; // Set a background color that matches the button inactive state
+  border-radius: 20px 20px 0 0; // Rounded corners only at the top
 `;
 
 const Button = styled.button`
-  background-color: #282d37;
-  color: #fff;
-  padding: 10px 20px;
+  flex: 1; // Each button takes equal space
+  padding: 15px 30px;
   border: none;
-  border-radius: 5px;
+  color: white;
+  background-color: transparent; // Transparent background to blend into the container
   cursor: pointer;
-  margin: 1px; /* Add margin between buttons */
-  &.active {
-    background-color: #FFA500; /* Active button color (orange) */
+  transition: background 0.3s;
+
+  &:hover, &.active {
+    background-color: #2172e5; // Highlight on hover and active
+  }
+
+  &:first-child {
+    border-right: 1px solid #131722; // Divider between the buttons
   }
 `;
 
-const SwapInfo = styled.div`
-  display: flex;
-  justify-content: space-between;
-  font-size: 0.8rem;
-  color: #ccc;
-  margin-top: 0.5rem;
+const FormContainer = styled.div`
+  padding: 20px;
 `;
 
-const SwapInfoText = styled.span``;
-
-const FeeText = styled.span``;
-
+// Component Function
 const Form = ({ activeForm }) => {
-
-  const [currentForm, setCurrentForm] = useState(activeForm || 'Form1'); // Set the initial form (optional)
-  const [clickedButton, setClickedButton] = useState(null);
-
+  const [currentForm, setCurrentForm] = useState(activeForm || 'Form1');
   const handleFormSwitch = (formName) => {
     setCurrentForm(formName);
-    setClickedButton(formName);
   };
 
   const FormContent = currentForm === 'Form1' ? <Form1 /> : <Form2 />;
 
   return (
-    <div className='body-fund'>
-    <Wrapper>
-      
-        <div className='lol'>
-            <div id='innerDiv'>
-            <Button
+    <OuterContainer>
+      <Wrapper>
+        <ButtonContainer>
+          <Button
             onClick={() => handleFormSwitch('Form1')}
-            className={clickedButton === 'Form1' ? 'active' : ''} // Apply 'active' class if clicked
+            className={currentForm === 'Form1' ? 'active' : ''}
           >
             ETH
           </Button>
           <Button
             onClick={() => handleFormSwitch('Form2')}
-            className={clickedButton === 'Form2' ? 'active' : ''} // Apply 'active' class if clicked
+            className={currentForm === 'Form2' ? 'active' : ''}
           >
             Stable Coin
           </Button>
-            </div>
-            <FormContainer>
-                {FormContent}
-            </FormContainer> 
-        </div>
-        
-    </Wrapper>
-    </div>
+        </ButtonContainer>
+        <FormContainer>
+          {FormContent}
+        </FormContainer>
+      </Wrapper>
+    </OuterContainer>
   );
 };
 

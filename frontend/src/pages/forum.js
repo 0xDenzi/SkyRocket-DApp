@@ -1,11 +1,11 @@
 import ForumPostPage from "../form3"
 
 
-const Gov = () => {
+const ProposalForum = () => {
     return(
         <ForumPostPage title={"hello"}/>
     )
 }
 
-export default Gov;
+export default ProposalForum;
 

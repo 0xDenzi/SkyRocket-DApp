@@ -1,11 +1,12 @@
 import React from "react";
 import { useEffect, useState } from "react";
-import { Nav, NavLink, NavMenu, LaunchButton, NavLinkButton } from "./Navbar/NavbarElements";
-import { Link } from 'react-router-dom'; // Use Link for client-side navigation
+import { Link, useLocation } from 'react-router-dom'; // Use Link for client-side navigation
 import './fund.css'; // Importing CSS from App.css
+import { BsFillRocketTakeoffFill } from "react-icons/bs";
 
 const Navbar = () => {
   const [walletAddress, setWalletAddress] = useState("");
+  const location = useLocation();
 
   useEffect(() => {
     getCurrentWalletConnected();
@@ -65,34 +66,23 @@ const Navbar = () => {
   };
 
   return (
-    <>
-      <Nav style={{ display: "flex" }}>
-        <NavMenu style={{ width: "100%", display: 'flex', justifyContent: 'space-between' }}>
-          <NavLink style={{ marginRight: '100px', textDecoration: 'none' }} to="/home" activeStyle>
-            {/* Uncomment the logo and text as needed */}
-            {/* <img src={logo} style={{ height: "50%" }} /> */}
-            {/* SkyRocket */}
-          </NavLink>
-          
-          <div style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            marginRight: "880px",
-          }}>
-            <NavLinkButton to="/fund">Fund</NavLinkButton>
-            <NavLinkButton to="/governance">Proposal</NavLinkButton>
-          </div>
-          <LaunchButton className="button is-white connect-wallet" onClick={connectWallet} style={{ margin: '0px 60px 0 0' }}>
-            <span className="is-link has-text-weight-bold">
-              {walletAddress && walletAddress.length > 0
-                ? `Connected: ${walletAddress.substring(0, 6)}...${walletAddress.substring(38)}`
-                : "Connect Wallet"}
-            </span>
-          </LaunchButton>
-        </NavMenu>
-      </Nav>
-    </>
+    <nav className="navbar-2">
+      <div style={{ display: 'flex', alignItems: 'center' }}>
+        <Link to="/" className="navbar-brand">
+          Sky<span>Rocket</span>
+          <BsFillRocketTakeoffFill />
+        </Link>
+        <div className="nav-links">
+          <Link to="/fund" className={`nav-link ${location.pathname === "/fund" ? "active" : "inactive"}`}>Fund</Link>
+          <Link to="/proposal" className={`nav-link ${location.pathname === "/proposal" ? "active" : "inactive"}`}>Proposal</Link>
+        </div>
+      </div>
+      <button className="connect-wallet" onClick={connectWallet}>
+        {walletAddress && walletAddress.length > 0
+          ? `Connected: ${walletAddress.substring(0, 6)}...${walletAddress.substring(38)}`
+          : "Connect Wallet"}
+      </button>
+    </nav>
   );
 };
 
