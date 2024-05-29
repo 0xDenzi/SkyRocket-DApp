@@ -1,6 +1,6 @@
 // Header.jsx
 import React from 'react';
-import { Navbar, Nav, Container, NavbarCollapse } from 'react-bootstrap';
+import { Navbar as BootstrapNavbar, Nav, Container, NavbarCollapse } from 'react-bootstrap';
 import { FaBuilding, FaBullhorn, FaBuffer } from 'react-icons/fa';
 import { BsFillRocketTakeoffFill } from "react-icons/bs";
 import Button from 'react-bootstrap/Button';
@@ -11,34 +11,32 @@ const Header = () => {
   return (
     <header>
       <section className="hero">
-        <Navbar bg="dark" variant="dark" expand="md" collapseOnSelect>
-        <Navbar.Brand href="/" className="SR">Sky<span>Rocket</span><BsFillRocketTakeoffFill/></Navbar.Brand>
+        <BootstrapNavbar bg="dark" variant="dark" expand="md" collapseOnSelect>
+          <BootstrapNavbar.Brand as={Link} to="/" className="SR">Sky<span>Rocket</span><BsFillRocketTakeoffFill/></BootstrapNavbar.Brand>
           <Container>
-            
-            <Navbar.Toggle aria-controls="basic-navnar-nav" />
-            <Navbar.Collapse class= "NC" id="basic-navbar-nav">
+            <BootstrapNavbar.Toggle aria-controls="basic-navnar-nav" />
+            <BootstrapNavbar.Collapse className="NC" id="basic-navbar-nav">
               <Nav className='navbar-nav'>
-                <Nav.Link href="/Home"><FaBuilding />Home</Nav.Link>
-                <Nav.Link href='/About'><FaBullhorn />About</Nav.Link>
+                <Nav.Link as={Link} to="/home"><FaBuilding />Home</Nav.Link>
+                <Nav.Link as={Link} to='/about'><FaBullhorn />About</Nav.Link>
                 <Nav.Link href="https://skyrocket-1.gitbook.io/docs"><FaBuffer />Docs</Nav.Link>
                 <Link to="/launch">
                   <Button className="Appbtn">Launch App <BsFillRocketTakeoffFill/></Button>
-                </Link>   
+                </Link>
               </Nav>
-               
-            </Navbar.Collapse>
+            </BootstrapNavbar.Collapse>
           </Container>
-        </Navbar>
+        </BootstrapNavbar>
 
         <div className="container">
           <h1>Empowering Innovations with Community-Driven Funding</h1>
           <p>Join the decentralized movement to fund and elevate groundbreaking projects..</p>
           <Link to="/fund">
-             <button>Start Funding</button>
+            <button>Start Funding</button>
           </Link>
           <Link to="/bajwa">
-             <button>Submit Project</button>
-          </Link>          
+            <button>Submit Project</button>
+          </Link>
         </div>
       </section>
     </header>

@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.19;
 
-import {ERC20} from "../lib/openzeppelin-contracts/contracts/token/ERC20/ERC20.sol";
+import {ERC20} from "../../lib/openzeppelin-contracts/contracts/token/ERC20/ERC20.sol";
 
 /// @notice  This ERC20 contract represents the DAI token.
 ///          This contract should support the following functionalities:
@@ -15,7 +15,7 @@ contract mockDAI is ERC20 {
     }
 
     /// @notice returns the decimals of $DAI.
-    function decimals() public view override returns (uint8) {
+    function decimals() public pure override returns (uint8) {
         return 6;
     }
 }

@@ -76,7 +76,7 @@ contract Project {
         uint256 _goalAmount,
         uint256 _deadline
     ) external onlyAdmin {
-        require(_projectWallet != 0, "0 Address");
+        require(_projectWallet != address(0), "0 Address");
         require(
             _deadline >= block.timestamp + 14 days,
             "Deadline less than 14 days not allowed"
@@ -101,7 +101,7 @@ contract Project {
         uint256 _amount
     ) external onlyFunding onlyUnpaused {
         IERC20(_token).transferFrom(_account, address(this), _amount);
-        projects[projectCounter - 1].amountRaised += _amount;
+        // projects[projectCounter - 1].amountRaised += _amount;
     }
 
     /// @notice Transfers funds from this contract to the fundseekers.
@@ -156,7 +156,7 @@ contract Project {
     }
 
     /// @notice Allows updation of Deadline of the project.
-    /// @param  _goalAmount   The new deadline.
+    /// @param  _deadline   The new deadline.
     function extendDeadline(uint256 _deadline) external onlyAdmin {
         require(
             _deadline >= block.timestamp + 14 days,
@@ -175,9 +175,9 @@ contract Project {
         returns (address, uint256, uint256)
     {
         return (
-            project[projectCounter - 1].projectWallet,
-            projects[projectCounter].goalAmount = _goalAmount,
-            projects[projectCounter].deadline = _deadline
+            projects[projectCounter - 1].projectWallet,
+            projects[projectCounter].goalAmount,
+            projects[projectCounter].deadline
         );
     }
 

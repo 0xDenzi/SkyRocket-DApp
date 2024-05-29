@@ -1,15 +1,18 @@
-body{
-  background-color: #292929;
+.body-proposal{
+  background-color: #3b3b3b;
+  height: 100vh;
+  z-index: -1;
 }
 
 .form-container {
   width: 600px;
-  margin: 0 auto;
+  margin-top: 50px;
+  margin-left: 650px;
   padding: 20px;
   background-color: #ffffff;
   border-radius: 10px;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-
+  position: absolute;
 }
 
 .form-heading {
@@ -48,8 +51,9 @@ body{
   resize: none;
 }
 
-.form-button {
+/* .form-button {
   padding: 15px 40px;
+  margin: 20px auto;
   background-color: #007bff;
   color: #fff;
   border: none;
@@ -57,6 +61,19 @@ body{
   margin-left: 250px;
   margin-top: 120px;
   cursor: pointer;
+  transition: background-color 0.3s ease;
+} */
+
+.form-button {
+  padding: 15px 40px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  margin: 20px auto 0 auto;
+  display: block;
+  cursor: pointer;
+  margin-top: 120px;
   transition: background-color 0.3s ease;
 }
 
