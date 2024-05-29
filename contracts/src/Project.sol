@@ -4,6 +4,17 @@ pragma solidity ^0.8.19;
 import {IERC20} from "../lib/openzeppelin-contracts/contracts/token/ERC20/IERC20.sol";
 
 contract Project {
+
+    event ProjectAdded(address indexed projectWallet, uint256 indexed projectId, uint256 goalAmount, uint256 deadline);
+    event Paused(bool indexed value);
+    event Unpaused(bool indexed value);
+    event TokensFunded(address indexed account, uint256 indexed projectId, address token, uint256 amount);
+    event FundsReleased(address indexed receiver, uint256 projectId, uint256 amount);
+    event ForceFundsReleased(address indexed receiver, uint256 projectId, uint256 amount);
+    event GoalsUpdated(uint256 newGoalAmount);
+    event DeadlineExtended(uint256 newDeadline);
+
+
     // Struct to handle projects
     struct raiseProjects {
         address projectWallet;
@@ -45,6 +56,8 @@ contract Project {
         mDAI = _allowedTokens[0];
         mUSDC = _allowedTokens[1];
         mUSDT = _allowedTokens[2];
+
+        pause = true;
     }
 
     /// @notice Modifier for onlyAdmin calls.
@@ -86,9 +99,13 @@ contract Project {
         projects[projectCounter].goalAmount = _goalAmount;
         projects[projectCounter].deadline = _deadline;
 
+        emit ProjectAdded(_projectWallet, projectCounter, _goalAmount, _deadline);
         projectCounter++;
 
         Unpause();
+        emit Unpaused(pause);
+
+        
     }
 
     /// @notice Transfers funds from user through the funding contract.
@@ -101,51 +118,54 @@ contract Project {
         uint256 _amount
     ) external onlyFunding onlyUnpaused {
         IERC20(_token).transferFrom(_account, address(this), _amount);
-        // projects[projectCounter - 1].amountRaised += _amount;
+        projects[projectCounter - 1].amountRaised += _amount;
+
+        emit TokensFunded(_account, projectCounter - 1, _token, _amount);
     }
 
     /// @notice Transfers funds from this contract to the fundseekers.
     function releaseFundsToProject() external onlyAdmin {
-        require(
-            block.timestamp > projects[projectCounter - 1].deadline,
-            "Deadline not reached yet"
-        );
-        require(
-            projects[projectCounter - 1].amountRaised >=
-                projects[projectCounter - 1].goalAmount,
-            "Goal not reached yet"
-        );
+        require(block.timestamp > projects[projectCounter - 1].deadline,"Deadline not reached yet");
+        require(projects[projectCounter - 1].amountRaised >=projects[projectCounter - 1].goalAmount,"Goal not reached yet");
 
         address receiver = projects[projectCounter - 1].projectWallet;
 
+        uint256 mDAIbalance = IERC20(mDAI).balanceOf(address(this));
+        uint256 mUSDCbalance = IERC20(mUSDC).balanceOf(address(this));
+        uint256 mUSDTbalance = IERC20(mUSDT).balanceOf(address(this));
+
+        uint256 totalAmount = mDAIbalance + mUSDCbalance + mUSDTbalance;
+
         IERC20(mDAI).transfer(receiver, IERC20(mDAI).balanceOf(address(this)));
-        IERC20(mUSDC).transfer(
-            receiver,
-            IERC20(mUSDC).balanceOf(address(this))
-        );
-        IERC20(mUSDT).transfer(
-            receiver,
-            IERC20(mUSDT).balanceOf(address(this))
-        );
+        IERC20(mUSDC).transfer(receiver,IERC20(mUSDC).balanceOf(address(this)));
+        IERC20(mUSDT).transfer(receiver,IERC20(mUSDT).balanceOf(address(this)));
+        
+
+        emit FundsReleased(receiver, projectCounter - 1, totalAmount);
 
         Pause();
+        emit Paused(pause);
     }
 
     /// @notice Force Transfers funds from this contract to the fundseekers.
     function forceReleaseFunds() external onlyAdmin {
         address receiver = projects[projectCounter - 1].projectWallet;
 
+        uint256 mDAIbalance = IERC20(mDAI).balanceOf(address(this));
+        uint256 mUSDCbalance = IERC20(mUSDC).balanceOf(address(this));
+        uint256 mUSDTbalance = IERC20(mUSDT).balanceOf(address(this));
+
+        uint256 totalAmount = mDAIbalance + mUSDCbalance + mUSDTbalance;
+
         IERC20(mDAI).transfer(receiver, IERC20(mDAI).balanceOf(address(this)));
-        IERC20(mUSDC).transfer(
-            receiver,
-            IERC20(mUSDC).balanceOf(address(this))
-        );
-        IERC20(mUSDT).transfer(
-            receiver,
-            IERC20(mUSDT).balanceOf(address(this))
-        );
+        IERC20(mUSDC).transfer(receiver,IERC20(mUSDC).balanceOf(address(this)));
+        IERC20(mUSDT).transfer(receiver,IERC20(mUSDT).balanceOf(address(this)));
+        
+
+        emit ForceFundsReleased(receiver, projectCounter - 1, totalAmount);
 
         Pause();
+        emit Paused(pause);
     }
 
     /// @notice Allows updation of Goal Amount of the project.
@@ -153,38 +173,39 @@ contract Project {
     function updateGoals(uint256 _goalAmount) external onlyAdmin {
         require(_goalAmount > 0, "Goal Amount can not be 0");
         projects[projectCounter - 1].goalAmount = _goalAmount;
+        
+        emit GoalsUpdated(_goalAmount);
     }
 
     /// @notice Allows updation of Deadline of the project.
     /// @param  _deadline   The new deadline.
     function extendDeadline(uint256 _deadline) external onlyAdmin {
-        require(
-            _deadline >= block.timestamp + 14 days,
-            "Deadline less than 14 days not allowed"
-        );
+
+        uint256 oldDeadline = projects[projectCounter - 1].deadline;
+        require(_deadline >= oldDeadline + 7 days, "Deadline should be greater than or equal to current deadline + 7 days");
+
         projects[projectCounter - 1].deadline = _deadline;
+
+        emit DeadlineExtended(_deadline);
     }
 
     /// @notice Returns information stored in struct of the project.
-    /// @return address    The Address of the fundseeker/s.
-    /// @return goalAmount The Goal Amount of the project.
-    /// @return deadline   The Deadline of the project.
+    /// @return address        The Address of the fundseeker/s.
+    /// @return goalAmount     The Goal Amount of the project.
+    /// @return amountRaised   The current amount raised.
+    /// @return deadline       The Deadline of the project.
     function currentProjectDetails()
         external
         view
-        returns (address, uint256, uint256)
+        returns (address, uint256, uint256, uint256)
     {
+        require(pause == false, "No Ongoing Projects");
         return (
             projects[projectCounter - 1].projectWallet,
-            projects[projectCounter].goalAmount,
-            projects[projectCounter].deadline
+            projects[projectCounter - 1].goalAmount,
+            projects[projectCounter - 1].amountRaised,
+            projects[projectCounter - 1].deadline
         );
-    }
-
-    /// @notice Returns the current amount raised of the project.
-    /// @return amountRaised   The Deadline of the project.
-    function currentRaisedAmount() external view returns (uint256) {
-        return projects[projectCounter - 1].amountRaised;
     }
 
     function Pause() private onlyAdmin {

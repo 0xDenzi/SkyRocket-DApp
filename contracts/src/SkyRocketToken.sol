@@ -8,6 +8,10 @@ import {ERC20} from "../lib/openzeppelin-contracts/contracts/token/ERC20/ERC20.s
 ///           - Burnable.
 ///           - Fixed supply of 25,000,000 $SKT.
 contract SkyRocketToken is ERC20 {
+
+    /// @notice The minter's address
+    address funding;
+
     /// @notice Initializes the SkyRocket contract ($SKT).
     /// @param  _name   The name of $SKT (SkyRocket).
     /// @param  _symbol The symbol of $SKT (SKT).
@@ -17,17 +21,22 @@ contract SkyRocketToken is ERC20 {
         string memory _symbol,
         address init
     ) ERC20(_name, _symbol) {
-        _mint(init, 25000000e6);
+        funding = init;
+    }
+
+    modifier onlyFunding() {
+        require(msg.sender == address(funding), "Not Authorized");
+        _;
     }
 
     /// @notice returns the decimals of $SKT.
-    function decimals() public view override returns (uint8) {
+    function decimals() public pure override returns (uint8) {
         return 6;
     }
 
     /// @notice Mints $SKT tokens.
     /// @param  amount The number of $SKT tokens to mint.
-    function mint(address account, uint256 amount) external {
+    function mint(address account, uint256 amount) external onlyFunding {
         _mint(account, amount);
     }
 }
