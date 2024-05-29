@@ -15,7 +15,7 @@ contract mockUSDC is ERC20 {
     }
 
     /// @notice returns the decimals of $USDC.
-    function decimals() public view override returns (uint8) {
+    function decimalsUSDC() public pure returns (uint8) {
         return 6;
     }
 }

@@ -15,7 +15,7 @@ contract mockDAI is ERC20 {
     }
 
     /// @notice returns the decimals of $DAI.
-    function decimals() public pure override returns (uint8) {
+    function decimalsDAI() public pure returns (uint8) {
         return 6;
     }
 }
