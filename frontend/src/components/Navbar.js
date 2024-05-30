@@ -72,9 +72,9 @@ const Navbar = () => {
           Sky<span>Rocket</span>
           <BsFillRocketTakeoffFill />
         </Link>
-        <div className="nav-links">
-          <Link to="/fund" className={`nav-link ${location.pathname === "/fund" ? "active" : "inactive"}`}>Fund</Link>
-          <Link to="/proposal" className={`nav-link ${location.pathname === "/proposal" ? "active" : "inactive"}`}>Proposal</Link>
+        <div className="nav-links-fund">
+          <Link to="/fund" className={`nav-link-fund ${location.pathname === "/fund" ? "active" : "inactive"}`}>Fund</Link>
+          <Link to="/proposal" className={`nav-link-fund ${location.pathname === "/proposal" ? "active" : "inactive"}`}>Proposal</Link>
         </div>
       </div>
       <button className="connect-wallet" onClick={connectWallet}>

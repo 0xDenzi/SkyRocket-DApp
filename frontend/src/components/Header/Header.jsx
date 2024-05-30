@@ -20,7 +20,7 @@ const Header = () => {
                 <Nav.Link as={Link} to="/home"><FaBuilding />Home</Nav.Link>
                 <Nav.Link as={Link} to='/about'><FaBullhorn />About</Nav.Link>
                 <Nav.Link href="https://skyrocket-1.gitbook.io/docs"><FaBuffer />Docs</Nav.Link>
-                <Link to="/launch">
+                <Link to="/fund">
                   <Button className="Appbtn">Launch App <BsFillRocketTakeoffFill/></Button>
                 </Link>
               </Nav>

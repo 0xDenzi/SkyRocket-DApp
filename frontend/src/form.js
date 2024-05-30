@@ -12,9 +12,15 @@ const OuterContainer = styled.div`
   align-items: center;
   height: 92.2vh; // Ensure full viewport height
   padding: 50px;
-  background-image: url(${Stars}); // Use the imported Stars image
-  background-size: cover;
-  background-position: center;
+  // background-image: url(${Stars}); // Use the imported Stars image
+  // background-size: cover;
+  // background-position: center;
+  background: hsla(215, 41%, 16%, 1);
+  background: radial-gradient(circle, hsla(215, 41%, 16%, 1) 34%, hsla(273, 16%, 22%, 1) 74%, hsla(198, 31%, 48%, 1) 100%);
+  background: -moz-radial-gradient(circle, hsla(215, 41%, 16%, 1) 34%, hsla(273, 16%, 22%, 1) 74%, hsla(198, 31%, 48%, 1) 100%);
+  background: -webkit-radial-gradient(circle, hsla(215, 41%, 16%, 1) 34%, hsla(273, 16%, 22%, 1) 74%, hsla(198, 31%, 48%, 1) 100%);
+  filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#182639", endColorstr="#3A3042", GradientType=1 );
+  overflow: hidden; /* Hide scrollbars */
 `;
 
 const Wrapper = styled.div`
@@ -22,7 +28,7 @@ const Wrapper = styled.div`
   background-color: #131722;
   border-radius: 20px;
   overflow: hidden; // Ensures no internal content spills out
-  box-shadow: 0 0 8px 2px rgba(33, 114, 229, 0.75); // Neon blue glow effect applied here
+  box-shadow: 0 0 8px 2px #558aa0; // Neon blue glow effect applied here
 `;
 
 const ButtonContainer = styled.div`
@@ -41,7 +47,7 @@ const Button = styled.button`
   transition: background 0.3s;
 
   &:hover, &.active {
-    background-color: #2172e5; // Highlight on hover and active
+    background-color: #FF531F; // Highlight on hover and active
   }
 
   &:first-child {

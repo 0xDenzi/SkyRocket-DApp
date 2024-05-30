@@ -6,7 +6,7 @@ const Home = () => {
   return (
     <div>
       <Header />
-         <About />
+      <About />
       <Work />
       <Footer />
       {/* Add other content of home page */}

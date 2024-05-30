@@ -72,7 +72,11 @@ const ErrorMessage = styled.div`
 `;
 
 const Button = styled.button`
-  background: linear-gradient(to right, #6a11cb, #2575fc);
+  background: hsla(0, 0%, 97%, 1);
+  background: linear-gradient(360deg, hsla(0, 0%, 97%, 1) 0%, hsla(18, 71%, 61%, 1) 0%, hsla(18, 70%, 56%, 1) 22%, hsla(17, 100%, 50%, 1) 74%);
+  background: -moz-linear-gradient(360deg, hsla(0, 0%, 97%, 1) 0%, hsla(18, 71%, 61%, 1) 0%, hsla(18, 70%, 56%, 1) 22%, hsla(17, 100%, 50%, 1) 74%);
+  background: -webkit-linear-gradient(360deg, hsla(0, 0%, 97%, 1) 0%, hsla(18, 71%, 61%, 1) 0%, hsla(18, 70%, 56%, 1) 22%, hsla(17, 100%, 50%, 1) 74%);
+  filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#F7F7F7", endColorstr="#E28055", GradientType=1 );
   color: #fff;
   border: none;
   padding: 10px 20px;
@@ -81,6 +85,7 @@ const Button = styled.button`
   font-size: 1rem;
   font-weight: bold;
   margin-bottom: 10px;
+  
 `;
 
 const Select = styled.div`
@@ -92,7 +97,7 @@ const Select = styled.div`
 `;
 
 const Option = styled.div`
-  background: ${props => props.active ? '#2575fc' : 'transparent'};
+  background: ${props => props.active ? '#FF531F' : 'transparent'};
   padding: 10px 15px;
   border-radius: 5px;
   cursor: pointer;
