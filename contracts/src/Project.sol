@@ -26,17 +26,17 @@ contract Project {
     // mapping of an id to the struct
     mapping(uint256 => raiseProjects) projects;
     // Counter for projects, Always increasing
-    uint256 projectCounter;
+    uint256 public projectCounter;
 
     // address of admin
-    address admin;
+    address public admin;
     // address of funding contract
-    address funding;
+    address public funding;
 
     // Tokens
-    address mDAI;
-    address mUSDC;
-    address mUSDT;
+    address public mDAI;
+    address public mUSDC;
+    address public mUSDT;
 
     // Pause variable
     bool pause;

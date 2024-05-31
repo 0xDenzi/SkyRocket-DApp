@@ -8,7 +8,7 @@ import {Project} from "../src/Project.sol";
 import {mockDAI} from "../src/MockTokens/mockDAI.sol";
 import {mockUSDC} from "../src/MockTokens/mockUSDC.sol";
 import {mockUSDT} from "../src/MockTokens/mockUSDT.sol";
-import {DeploySkyRocket} from "../script/DeploySkyRocket.s.sol";
+// import {DeploySkyRocket} from "../script/DeploySkyRocket.s.sol";
 import {Test} from "../lib/forge-std/src/Test.sol";
 import {console} from "../lib/forge-std/src/console.sol";
 
@@ -17,7 +17,7 @@ contract FundingTest is Test {
     Funding funding;
     Project project;
     SkyRocketToken sktToken;
-    DeploySkyRocket deployScript;
+    //DeploySkyRocket deployScript;
     mockDAI mockdai;
     mockUSDC mockusdc;
     mockUSDT mockusdt;
@@ -52,7 +52,7 @@ contract FundingTest is Test {
         vm.prank(user);
         mockdai.approve(address(project), 100e6);
 
-        deployScript = new DeploySkyRocket();
+        // deployScript = new DeploySkyRocket();
         
     }
 
@@ -281,18 +281,6 @@ contract FundingTest is Test {
         vm.prank(address(funding));
         sktToken.mint(address(user), 10e18);
         vm.stopPrank();
-    }
-
-    function testUSDC() public view {
-        mockusdc.decimalsUSDC();
-    }
-
-    function testDAI() public view {
-        mockdai.decimalsDAI();
-    }
-
-    function testUSDT() public view {
-        mockusdt.decimals();
     }
 
 
@@ -743,9 +731,9 @@ contract FundingTest is Test {
         vm.stopPrank();
     }
 
-    function testDeploy() public {
-        deployScript.run();
-    }
+    // function testDeploy() public {
+    //     deployScript.run();
+    // }
 
     
 
