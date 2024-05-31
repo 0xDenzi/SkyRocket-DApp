@@ -146,7 +146,7 @@ const ErrorMessage = styled.div`
 
 const Form2 = () => {
   const [fromAmount, setFromAmount] = useState('');
-  const [selectedToken, setSelectedToken] = useState('0x88DD019E2070E61B0300c9F1206a7265eb322122'); // USDC token address
+  const [selectedToken, setSelectedToken] = useState('0xD2dE6032b0BC2aCC3D5a03Df8b024fA4FaC7B0a9'); // USDC token address
   const [provider, setProvider] = useState(null);
   const [signer, setSigner] = useState(null);
   const [contract, setContract] = useState(null);
@@ -159,7 +159,7 @@ const Form2 = () => {
     "function allowance(address owner, address spender) external view returns (uint256)"
   ];
 
-  const contractAddress = '0xB19aB8f4024D1F2fF24932F6622B906439e08d27'; // funding.sol
+  const contractAddress = '0x78B5ed57036aCeBfC47a198975b34a92D2e01A89'; // funding.sol
 
   useEffect(() => {
     if (window.ethereum) {
@@ -243,24 +243,24 @@ const Form2 = () => {
         <InputContainer>
           <DropdownContainer>
             <div onClick={() => setShowDropdown(!showDropdown)} style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}>
-              {selectedToken === '0x88DD019E2070E61B0300c9F1206a7265eb322122' && <Icon src={usdcIcon} alt="USDC" />}
-              {selectedToken === '0x387Ac9a53478308FB12580Ce82a798De78670830' && <Icon src={daiIcon} alt="DAI" />}
-              {selectedToken === '0x34c1ec11E2c50799e2B65CF996dF9CE09B296D39' && <Icon src={usdtIcon} alt="USDT" />}
+              {selectedToken === '0xD2dE6032b0BC2aCC3D5a03Df8b024fA4FaC7B0a9' && <Icon src={usdcIcon} alt="USDC" />}
+              {selectedToken === '0x2BD311122823a95fd28f534814bd38C458948dC4' && <Icon src={daiIcon} alt="DAI" />}
+              {selectedToken === '0xd6fDaA3a7535372B568476c2B6ea1C11a16a1e44' && <Icon src={usdtIcon} alt="USDT" />}
               <CurrencyLabel>
-                {selectedToken === '0x88DD019E2070E61B0300c9F1206a7265eb322122' && 'USDC'}
-                {selectedToken === '0x387Ac9a53478308FB12580Ce82a798De78670830' && 'DAI'}
-                {selectedToken === '0x34c1ec11E2c50799e2B65CF996dF9CE09B296D39' && 'USDT'}
+                {selectedToken === '0xD2dE6032b0BC2aCC3D5a03Df8b024fA4FaC7B0a9' && 'USDC'}
+                {selectedToken === '0x2BD311122823a95fd28f534814bd38C458948dC4' && 'DAI'}
+                {selectedToken === '0xd6fDaA3a7535372B568476c2B6ea1C11a16a1e44' && 'USDT'}
               </CurrencyLabel>
               <DropdownArrow>▼</DropdownArrow>
             </div>
             <DropdownMenu show={showDropdown}>
-              <DropdownItem onClick={() => handleTokenSelect('0x88DD019E2070E61B0300c9F1206a7265eb322122')}>
+              <DropdownItem onClick={() => handleTokenSelect('0xD2dE6032b0BC2aCC3D5a03Df8b024fA4FaC7B0a9')}>
                 <DropdownIcon src={usdcIcon} alt="USDC" /> USDC
               </DropdownItem>
-              <DropdownItem onClick={() => handleTokenSelect('0x387Ac9a53478308FB12580Ce82a798De78670830')}>
+              <DropdownItem onClick={() => handleTokenSelect('0x2BD311122823a95fd28f534814bd38C458948dC4')}>
                 <DropdownIcon src={daiIcon} alt="DAI" /> DAI
               </DropdownItem>
-              <DropdownItem onClick={() => handleTokenSelect('0x34c1ec11E2c50799e2B65CF996dF9CE09B296D39')}>
+              <DropdownItem onClick={() => handleTokenSelect('0xd6fDaA3a7535372B568476c2B6ea1C11a16a1e44')}>
                 <DropdownIcon src={usdtIcon} alt="USDT" /> USDT
               </DropdownItem>
             </DropdownMenu>
