@@ -75,7 +75,7 @@ const AdminPortal = () => {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const signer = provider.getSigner();
       const contractInstance = new ethers.Contract(
-        '0xe98d487ce0580add4eca94e04f0cf0700cebd5a2', // project contract address
+        '0x5620526ac4289301aafa8784b44e2e1043b840fe', // project contract address
         ProjectContract.abi,
         signer
       );
@@ -87,54 +87,34 @@ const AdminPortal = () => {
   const addProject = async () => {
     if (contract) {
       const parsedGoalAmount = ethers.utils.parseUnits(goalAmount, 6);
-      const tx = await contract.addProject(formWalletAddress, parsedGoalAmount, deadline, {
-        gasLimit: ethers.utils.hexlify(1000000)  // Setting gas limit to 1,000,000
-      });
-      console.log('Transaction:', tx);
+      await contract.addProject(formWalletAddress, parsedGoalAmount, deadline);
     }
   };
-  
-  
+
   const updateGoals = async () => {
     if (contract) {
       const parsedNewGoal = ethers.utils.parseUnits(newGoal, 6);
-      const tx = await contract.updateGoals(parsedNewGoal, {
-        gasLimit: ethers.utils.hexlify(1000000)  // Setting gas limit to 1,000,000
-      });
-      console.log('Transaction:', tx);
+      await contract.updateGoals(parsedNewGoal);
     }
   };
-  
 
   const extendDeadline = async () => {
     if (contract) {
-      const tx = await contract.extendDeadline(newDeadline, {
-        gasLimit: ethers.utils.hexlify(1000000)  // Setting gas limit to 1,000,000
-      });
-      console.log('Transaction:', tx);
+      await contract.extendDeadline(newDeadline);
     }
   };
-  
 
   const releaseFunds = async () => {
     if (contract) {
-      const tx = await contract.releaseFunds({
-        gasLimit: ethers.utils.hexlify(1000000)  // Setting gas limit to 1,000,000
-      });
-      console.log('Transaction:', tx);
+      await contract.releaseFunds();
     }
   };
-  
 
   const forceReleaseFunds = async () => {
     if (contract) {
-      const tx = await contract.forceReleaseFunds({
-        gasLimit: ethers.utils.hexlify(1000000)  // Setting gas limit to 1,000,000
-      });
-      console.log('Transaction:', tx);
+      await contract.forceReleaseFunds();
     }
   };
-  
 
   return (
     <div className='body-admin'>
@@ -151,8 +131,8 @@ const AdminPortal = () => {
           <div className="vertical-container">
           <div className="section vertical-section">
               <input type="text" className="input-box" placeholder="Wallet Address" value={formWalletAddress} onChange={(e) => setFormWalletAddress(e.target.value)} />
-              <input type="text" className="input-box" placeholder="Goal Amount" value={goalAmount} onChange={(e) => setGoalAmount(e.target.value)} />
-              <input type="text" className="input-box" placeholder="Deadline" value={deadline} onChange={(e) => setDeadline(e.target.value)} />
+              <input type="number" className="input-box" placeholder="Goal Amount" value={goalAmount} onChange={(e) => setGoalAmount(e.target.value)} />
+              <input type="number" className="input-box" placeholder="Deadline" value={deadline} onChange={(e) => setDeadline(e.target.value)} />
               <button className="button red-button" onClick={() => addProject(formWalletAddress, goalAmount, deadline)}>Add Project</button>
             </div>
           </div>

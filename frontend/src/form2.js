@@ -209,22 +209,25 @@ const Form2 = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    if (!contract) return;
-
+    if (!contract || !signer) return;
+  
     const tokenContract = new ethers.Contract(selectedToken, ERC20_ABI, signer);
     const fundingAmount = ethers.utils.parseUnits(fromAmount, 6); // Adjust the '6' based on the token's decimals
-
+  
     try {
-      // Check current allowance
-      const allowance = await tokenContract.allowance(signer.getAddress(), contract.address);
-      if (allowance.lt(fundingAmount)) {
+      // Check current allowance for the project.sol contract
+      const projectContractAddress = '0x5620526ac4289301aafa8784b44e2e1043b840fe';
+      const currentAllowance = await tokenContract.allowance(await signer.getAddress(), projectContractAddress);
+  
+      if (currentAllowance.lt(fundingAmount)) {
         // Not enough allowance, need to approve
-        const approveTx = await tokenContract.approve(contract.address, fundingAmount);
+        const approveTx = await tokenContract.approve(projectContractAddress, fundingAmount);
         await approveTx.wait();
-        console.log('Approval successful');
+        console.log('Approval successful, transaction hash:', approveTx.hash);
       }
-
-      // Proceed to fund
+  
+      // Assuming the funding function in your project.sol contract is called fundWithStableCoin
+      // This is where you'd handle the actual funding transaction after the approval is confirmed
       const fundTx = await contract.fundWithStableCoin(
         ethers.utils.getAddress(selectedToken),
         fundingAmount,
@@ -236,6 +239,7 @@ const Form2 = () => {
       console.error('Error during the funding process:', error);
     }
   };
+  
 
   return (
     <Wrapper>
