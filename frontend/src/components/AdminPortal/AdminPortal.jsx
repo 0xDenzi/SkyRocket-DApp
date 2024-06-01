@@ -75,7 +75,7 @@ const AdminPortal = () => {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const signer = provider.getSigner();
       const contractInstance = new ethers.Contract(
-        '0x5620526ac4289301aafa8784b44e2e1043b840fe', // project contract address
+        '0xBe1A84a1c750A9Be22777DB92da4024D2A0f0689', // project contract address
         ProjectContract.abi,
         signer
       );

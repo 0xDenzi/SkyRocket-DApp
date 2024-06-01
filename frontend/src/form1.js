@@ -172,18 +172,25 @@ const Form1 = () => {
   const [provider, setProvider] = useState(null);
   const [signer, setSigner] = useState(null);
   const [contract, setContract] = useState(null);
-  const [projectContractAddress, setProjectContractAddress] = useState('0x5620526ac4289301aafa8784b44e2e1043b840fe');
+  const [projectContractAddress, setProjectContractAddress] = useState('0xBe1A84a1c750A9Be22777DB92da4024D2A0f0689');
   const WETH_ABI = [
     "function approve(address spender, uint256 amount) external returns (bool)",
     "function transferFrom(address from, address to, uint256 amount) external returns (bool)"
   ];
+
+  const USDC_ABI = [
+    "function approve(address spender, uint256 amount) external returns (bool)",
+    "function transferFrom(address from, address to, uint256 amount) external returns (bool)"
+  ];
+
+
 
   useEffect(() => {
     const initEthers = () => {
       if (window.ethereum) {
         const newProvider = new ethers.providers.Web3Provider(window.ethereum);
         const newSigner = newProvider.getSigner();
-        const newContract = new ethers.Contract('0x78B5ed57036aCeBfC47a198975b34a92D2e01A89', FundingABI.abi, newSigner);  // Your Funding.sol address
+        const newContract = new ethers.Contract('0x38C64A1a06d2937CC0B24FA167EC5f99a34258a0', FundingABI.abi, newSigner);  // Your Funding.sol address
         setProvider(newProvider);
         setSigner(newSigner);
         setContract(newContract);
@@ -269,13 +276,19 @@ const Form1 = () => {
     if (!contract || !signer) return;
 
     const wethContract = new ethers.Contract('0x367D85aa4C908b5CC8a71373Ff6092C82740fF0e', WETH_ABI, signer);
+    const usdcContract = new ethers.Contract('0xD2dE6032b0BC2aCC3D5a03Df8b024fA4FaC7B0a9',USDC_ABI,signer);
     const wethAmount = ethers.utils.parseUnits(fromAmount, 6); // Adjust the '6' based on the token's decimals
     const usdcAmount = ethers.utils.parseUnits(toAmount, 6); // Adjust the '6' based on the token's decimals
     const adjustedDeadline = Math.floor(Date.now() / 1000) + parseInt(deadline) * 60; // Convert deadline from minutes to seconds
   
     try {
-      const approveTx = await wethContract.approve(projectContractAddress, wethAmount);
+      const approveTx = await wethContract.approve('0x38C64A1a06d2937CC0B24FA167EC5f99a34258a0', wethAmount); //funding
       await approveTx.wait();
+      
+      // const approveTx2 = await usdcContract.approve(projectContractAddress, usdcAmount);
+      // await approveTx2.wait();
+      
+
       console.log('Approval successful, transaction hash:', approveTx.hash);
 
       // Now we can handle the fundWithEther transaction

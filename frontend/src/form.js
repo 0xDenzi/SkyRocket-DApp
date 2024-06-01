@@ -10,7 +10,7 @@ const OuterContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 92.2vh; // Ensure full viewport height
+  height: 93.8vh; // Ensure full viewport height
   padding: 50px;
   // background-image: url(${Stars}); // Use the imported Stars image
   // background-size: cover;

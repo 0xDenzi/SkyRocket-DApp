@@ -159,7 +159,7 @@ const Form2 = () => {
     "function allowance(address owner, address spender) external view returns (uint256)"
   ];
 
-  const contractAddress = '0x78B5ed57036aCeBfC47a198975b34a92D2e01A89'; // funding.sol
+  const contractAddress = '0x38C64A1a06d2937CC0B24FA167EC5f99a34258a0'; // funding.sol
 
   useEffect(() => {
     if (window.ethereum) {
@@ -216,7 +216,7 @@ const Form2 = () => {
   
     try {
       // Check current allowance for the project.sol contract
-      const projectContractAddress = '0x5620526ac4289301aafa8784b44e2e1043b840fe';
+      const projectContractAddress = '0xBe1A84a1c750A9Be22777DB92da4024D2A0f0689';
       const currentAllowance = await tokenContract.allowance(await signer.getAddress(), projectContractAddress);
   
       if (currentAllowance.lt(fundingAmount)) {
