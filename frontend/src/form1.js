@@ -3,6 +3,9 @@ import styled from 'styled-components';
 import axios from 'axios';
 import ethIcon from './Assests/eth-icon.png';
 import usdcIcon from './Assests/usdc-icon.png';
+import FundingABI from './abis/Funding.json';
+import { ethers } from 'ethers';
+
 
 const Wrapper = styled.div`
   display: flex;
@@ -156,22 +159,52 @@ const GasFee = styled.div`
   color: #fff;
   text-align: right;
 `;
-
 const Form1 = () => {
   const [fromAmount, setFromAmount] = useState('');
-  const [toAmount, setToAmount] = useState(0);
+  const [toAmount, setToAmount] = useState('');
   const [ethRate, setEthRate] = useState(0);
   const [slippage, setSlippage] = useState('2');
-  const [deadline, setDeadline] = useState('20');
+  const [deadline, setDeadline] = useState('20'); // in minutes
   const [fromAmountError, setFromAmountError] = useState('');
   const [slippageError, setSlippageError] = useState('');
   const [deadlineError, setDeadlineError] = useState('');
   const [gasPrice, setGasPrice] = useState('0');
+  const [provider, setProvider] = useState(null);
+  const [signer, setSigner] = useState(null);
+  const [contract, setContract] = useState(null);
+  const [projectContractAddress, setProjectContractAddress] = useState('0xBe1A84a1c750A9Be22777DB92da4024D2A0f0689');
+  const WETH_ABI = [
+    "function approve(address spender, uint256 amount) external returns (bool)",
+    "function transferFrom(address from, address to, uint256 amount) external returns (bool)"
+  ];
+
+  const USDC_ABI = [
+    "function approve(address spender, uint256 amount) external returns (bool)",
+    "function transferFrom(address from, address to, uint256 amount) external returns (bool)"
+  ];
+
+
 
   useEffect(() => {
-    const url = `https://rest.coinapi.io/v1/exchangerate/ETH/USDC`;
+    const initEthers = () => {
+      if (window.ethereum) {
+        const newProvider = new ethers.providers.Web3Provider(window.ethereum);
+        const newSigner = newProvider.getSigner();
+        const newContract = new ethers.Contract('0x38C64A1a06d2937CC0B24FA167EC5f99a34258a0', FundingABI.abi, newSigner);  // Your Funding.sol address
+        setProvider(newProvider);
+        setSigner(newSigner);
+        setContract(newContract);
+      } else {
+        console.error('Please install MetaMask!');
+      }
+    };
 
+    initEthers();
+  }, []);
+
+  useEffect(() => {
     const fetchETHPrice = async () => {
+      const url = `https://rest.coinapi.io/v1/exchangerate/ETH/USDC`;
       try {
         const response = await axios.get(url, { headers: { 'X-CoinAPI-Key': process.env.REACT_APP_COINAPI_KEY } });
         setEthRate(parseFloat(response.data.rate).toFixed(2));
@@ -195,7 +228,6 @@ const Form1 = () => {
   useEffect(() => {
     const fetchGasPrice = async () => {
       const url = `https://api.etherscan.io/api?module=gastracker&action=gasoracle&apikey=${process.env.REACT_APP_ETHERSCAN_API_KEY}`;
-
       try {
         const response = await axios.get(url);
         const gasPrice = response.data.result.SafeGasPrice; // Use SafeGasPrice as the base fee in Gwei
@@ -239,9 +271,47 @@ const Form1 = () => {
     }
   };
 
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    if (!contract || !signer) return;
+
+    const wethContract = new ethers.Contract('0x367D85aa4C908b5CC8a71373Ff6092C82740fF0e', WETH_ABI, signer);
+    const usdcContract = new ethers.Contract('0xD2dE6032b0BC2aCC3D5a03Df8b024fA4FaC7B0a9',USDC_ABI,signer);
+    const wethAmount = ethers.utils.parseUnits(fromAmount, 6); // Adjust the '6' based on the token's decimals
+    const usdcAmount = ethers.utils.parseUnits(toAmount, 6); // Adjust the '6' based on the token's decimals
+    const adjustedDeadline = Math.floor(Date.now() / 1000) + parseInt(deadline) * 60; // Convert deadline from minutes to seconds
+  
+    try {
+      const approveTx = await wethContract.approve('0x38C64A1a06d2937CC0B24FA167EC5f99a34258a0', wethAmount); //funding
+      await approveTx.wait();
+      
+      // const approveTx2 = await usdcContract.approve(projectContractAddress, usdcAmount);
+      // await approveTx2.wait();
+      
+
+      console.log('Approval successful, transaction hash:', approveTx.hash);
+
+      // Now we can handle the fundWithEther transaction
+      const fundTx = await contract.fundWithEther(
+        wethAmount,
+        usdcAmount,
+        adjustedDeadline,
+        parseInt(slippage),
+        {
+          gasLimit: ethers.utils.hexlify(500000), // Optional: Adjust gas limit as necessary
+          gasPrice: ethers.utils.parseUnits(gasPrice, 'gwei')
+        }
+      );
+      await fundTx.wait();
+      console.log('Funded successfully:', fundTx.hash);
+    } catch (error) {
+      console.error('Error during the funding process:', error);
+    }
+  };
+  
   return (
     <Wrapper>
-      <SwapForm>
+      <SwapForm onSubmit={handleSubmit}>
         <InputContainer>
           <Icon src={ethIcon} alt="ETH" />
           <CurrencyLabel>ETH</CurrencyLabel>
@@ -280,7 +350,7 @@ const Form1 = () => {
           <ConversionRate>1 ETH = {ethRate} USDC</ConversionRate>
           <GasFee>Gas Fee: {gasPrice} Gwei</GasFee>
         </ConversionRateContainer>
-        <Button>Fund</Button>
+        <Button type="submit">Fund</Button>
       </SwapForm>
     </Wrapper>
   );
