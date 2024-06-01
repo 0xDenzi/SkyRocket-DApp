@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import axios from 'axios';
 import ethIcon from './Assests/eth-icon.png';
 import usdcIcon from './Assests/usdc-icon.png';
-import FundingABI from '../src/abis/Funding.json';
+import FundingABI from './abis/Funding.json';
 import { ethers } from 'ethers';
 
 
@@ -161,7 +161,7 @@ const GasFee = styled.div`
 `;
 const Form1 = () => {
   const [fromAmount, setFromAmount] = useState('');
-  const [toAmount, setToAmount] = useState(0);
+  const [toAmount, setToAmount] = useState('');
   const [ethRate, setEthRate] = useState(0);
   const [slippage, setSlippage] = useState('2');
   const [deadline, setDeadline] = useState('20'); // in minutes
@@ -173,8 +173,6 @@ const Form1 = () => {
   const [signer, setSigner] = useState(null);
   const [contract, setContract] = useState(null);
   const [projectContractAddress, setProjectContractAddress] = useState('0x5620526ac4289301aafa8784b44e2e1043b840fe');
-
-  // Mock WETH Token Contract
   const WETH_ABI = [
     "function approve(address spender, uint256 amount) external returns (bool)",
     "function transferFrom(address from, address to, uint256 amount) external returns (bool)"
@@ -269,32 +267,30 @@ const Form1 = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (!contract || !signer) return;
-  
-    const wethAmount = ethers.utils.parseUnits(fromAmount, 6); // Assuming WETH has 6 decimals
-    const usdcAmount = ethers.utils.parseUnits(toAmount, 6); // Assuming USDC also has 6 decimals
+
+    const wethContract = new ethers.Contract('0x367D85aa4C908b5CC8a71373Ff6092C82740fF0e', WETH_ABI, signer);
+    const wethAmount = ethers.utils.parseUnits(fromAmount, 6); // Adjust the '6' based on the token's decimals
+    const usdcAmount = ethers.utils.parseUnits(toAmount, 6); // Adjust the '6' based on the token's decimals
     const adjustedDeadline = Math.floor(Date.now() / 1000) + parseInt(deadline) * 60; // Convert deadline from minutes to seconds
   
     try {
-      const wethContract = new ethers.Contract('0x367D85aa4C908b5CC8a71373Ff6092C82740fF0e', WETH_ABI, signer); // WETH mock token address
-      
-      // First, let's handle the WETH approval
-      console.log('Attempting to approve WETH...');
-      const approveTx = await wethContract.approve('0x5620526ac4289301aafa8784b44e2e1043b840fe', wethAmount);
+      const approveTx = await wethContract.approve(projectContractAddress, wethAmount);
       await approveTx.wait();
-      console.log('WETH approval transaction hash:', approveTx.hash);
-  
-      // Check if the approval was successful before proceeding
-      console.log('Checking allowance...');
-      const allowance = await wethContract.allowance(await signer.getAddress(), '0x5620526ac4289301aafa8784b44e2e1043b840fe');
-      if (allowance.gte(wethAmount)) {
-        console.log('Approval confirmed, proceeding with fundWithEther...');
-        // Now, let's call fundWithEther
-        const fundTx = await contract.fundWithEther(wethAmount, usdcAmount, adjustedDeadline, parseInt(slippage));
-        await fundTx.wait();
-        console.log('Funded successfully:', fundTx);
-      } else {
-        console.error('Error: Allowance insufficient after approval');
-      }
+      console.log('Approval successful, transaction hash:', approveTx.hash);
+
+      // Now we can handle the fundWithEther transaction
+      const fundTx = await contract.fundWithEther(
+        wethAmount,
+        usdcAmount,
+        adjustedDeadline,
+        parseInt(slippage),
+        {
+          gasLimit: ethers.utils.hexlify(500000), // Optional: Adjust gas limit as necessary
+          gasPrice: ethers.utils.parseUnits(gasPrice, 'gwei')
+        }
+      );
+      await fundTx.wait();
+      console.log('Funded successfully:', fundTx.hash);
     } catch (error) {
       console.error('Error during the funding process:', error);
     }
