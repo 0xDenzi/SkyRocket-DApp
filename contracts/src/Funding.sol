@@ -103,13 +103,12 @@ contract Funding {
 
         uint amountUSDCReceived = results[1]; // This is the USDC amount received from the swap
 
-        IERC20(USDC_ADDRESS).transfer(_account, amountUSDCReceived);
-
         totalDeposits[_account] += amountUSDCReceived;
         projectDeposits[_account][PJT.projectCounter()] += amountUSDCReceived;
 
+        IERC20(USDC_ADDRESS).approve(address(PJT), amountUSDCReceived);
 
-        PJT.fundsAccumulation(_account, USDC_ADDRESS, amountUSDCReceived);
+        PJT.fundsAccumulation(address(this), USDC_ADDRESS, amountUSDCReceived);
         SKT.mint(_account, amountUSDCReceived);
 
         // Here you would typically update your contract's state and handle token minting
