@@ -1,82 +1,125 @@
-.body-proposal{
-  background-color: #3b3b3b;
+.body-proposal {
+  background-color: #182639; /* Dark background color */
+  color: white;
   height: 100vh;
-  z-index: -1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  background: hsla(215, 41%, 16%, 1);
+  background: radial-gradient(circle, hsla(215, 41%, 16%, 1) 34%, hsla(273, 16%, 22%, 1) 74%, hsla(198, 31%, 48%, 1) 100%);
+  background: -moz-radial-gradient(circle, hsla(215, 41%, 16%, 1) 34%, hsla(273, 16%, 22%, 1) 74%, hsla(198, 31%, 48%, 1) 100%);
+  background: -webkit-radial-gradient(circle, hsla(215, 41%, 16%, 1) 34%, hsla(273, 16%, 22%, 1) 74%, hsla(198, 31%, 48%, 1) 100%);
+  filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#182639", endColorstr="#3A3042", GradientType=1 );
+  overflow: hidden;
+  
+ 
 }
 
 .form-container {
-  width: 600px;
-  margin-top: 50px;
-  margin-left: 650px;
+  width: 500px; /* Same max-width as navbar */
   padding: 20px;
-  background-color: #ffffff;
-  border-radius: 10px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-  position: absolute;
+  background-color: #2c2c2c; /* Background for the switch effect */
+  border-radius: 15px; /* Reduced rounded corners for the switch */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-align: center; /* Center align content */
+}
+.form-grp{
+  background-color: #1826
 }
 
 .form-heading {
   text-align: center;
   margin-bottom: 20px;
-  color: #333;
-  border: #007bff;
+  color: white; /* Match navbar color */
 }
 
 .form-group {
-  margin-bottom: 20px;
+  margin-bottom: 15px; /* Reduced margin-bottom */
+  text-align: center;
 }
 
 .form-label {
   display: block;
   margin-bottom: 5px;
-  color: #555;
+  color: #FF531F; /* Different color for "Rocket" */
+  text-align: center;
 }
 
 .form-input,
 .form-textarea {
   padding: 8px;
+  color: white;
   border: none;
   border-radius: 4px;
-  background-color: #fff;
+  background-color: #212020;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
   width: 100%;
 }
-
+.containerLast{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+.form-text{
+  border-radius: 4px;
+  color: white;
+  padding: 5px;
+  margin-top: 30px;
+  background-color: #212020;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  width: 50%;
+  resize: none;
+  margin-right: 230px;
+  display: flex;
+  
+  
+ 
+}
+.form-textgoal{
+  border-radius: 2px;
+  color: white;
+  background-color: #212020;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
+  width: 49%;
+  margin-left: 240px;  
+  resize: none;
+  margin-top: -70px;
+  padding-right: 100px;
+  
+  
+}
 .styleit {
-  height: 200px;
+  height: 100px; /* Keep the description height at 100px */
+  
 }
 
 .form-textarea {
-  min-height: 300px;
+  min-height: 100px; /* Keep the description min-height at 100px */
   resize: none;
 }
+.goal-input,
+.deadline-input {
+  background-color: #2c2c2c; /* Grey background color */
+  width: 200px; /* Adjust the width as needed */
+}
 
-/* .form-button {
-  padding: 15px 40px;
-  margin: 20px auto;
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 10px;
-  margin-left: 250px;
-  margin-top: 120px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-} */
 
 .form-button {
-  padding: 15px 40px;
-  background-color: #007bff;
-  color: #fff;
+  padding: 10px 120px; /* Reduced padding and width */
+  background-color: #FF531F; /* Orange background for button */
+  color: #ffffff;
+  margin-top: 50px;
   border: none;
-  border-radius: 10px;
-  margin: 20px auto 0 auto;
-  display: block;
+  border-radius: 5px; /* Match connect-wallet button */
   cursor: pointer;
-  margin-top: 120px;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s, box-shadow 0.3s; /* Smooth transition */
 }
 
 .form-button:hover {
-  background-color: #0056b3;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Adds shadow effect */
+  background-color: #a84223; /* Slightly darker shade of the base color */
 }
