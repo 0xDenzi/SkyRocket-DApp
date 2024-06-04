@@ -22,7 +22,8 @@ function App() {
             <Route path="/" element={<Home />} /> {/* Home page route */}
             <Route path="/launch" element={<Fund />} /> {/* Launch page route */}
             <Route path="/fund" element={<Fund />} /> {/* Fund page route */}
-            <Route path="/proposal" element={<ProposalForum />} /> 
+            <Route path="/proposals" element={<ProposalForum />} /> 
+            <Route path="/createproposal" element={<Proposal />} />
             <Route path="/admin" element={<AdminPortal />} />
             {/* Add other routes as necessary */}
           </Routes>
@@ -37,7 +38,7 @@ const ConditionalNavbar = () => {
   const location = useLocation();
 
   // Define the routes where the Navbar should appear
-  const navbarRoutes = ['/launch', '/fund', '/governance'];
+  const navbarRoutes = ['/launch', '/fund', '/createproposal', 'proposals'];
 
   // Render the Navbar only on the specified routes
   return navbarRoutes.includes(location.pathname) ? <Navbar /> : null;
