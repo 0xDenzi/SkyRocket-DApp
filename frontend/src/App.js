@@ -3,9 +3,9 @@ import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 
 import Home from "./pages/home";
 import Fund from "./pages/fund";
-import ProposalForum from "./pages/forum";
 import Proposal from "./pages/proposal";
 import AdminPortal from "./pages/adminportal";
+import ViewProposals from "./pages/viewproposal";
 
 import Navbar from "./components/Navbar"; // Import the Navbar component
 
@@ -22,9 +22,9 @@ function App() {
             <Route path="/" element={<Home />} /> {/* Home page route */}
             <Route path="/launch" element={<Fund />} /> {/* Launch page route */}
             <Route path="/fund" element={<Fund />} /> {/* Fund page route */}
-            <Route path="/proposals" element={<ProposalForum />} /> 
             <Route path="/createproposal" element={<Proposal />} />
             <Route path="/admin" element={<AdminPortal />} />
+            <Route path="/proposal" element={<ViewProposals />} />
             {/* Add other routes as necessary */}
           </Routes>
         </div>
@@ -38,7 +38,7 @@ const ConditionalNavbar = () => {
   const location = useLocation();
 
   // Define the routes where the Navbar should appear
-  const navbarRoutes = ['/launch', '/fund', '/createproposal', 'proposals'];
+  const navbarRoutes = ['/launch', '/fund', '/createproposal','/proposal'];
 
   // Render the Navbar only on the specified routes
   return navbarRoutes.includes(location.pathname) ? <Navbar /> : null;
