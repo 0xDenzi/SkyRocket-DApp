@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import "./ViewDetailProposal.css";
 import styled from 'styled-components';
 import axios from 'axios';
+import { useParams } from 'react-router-dom';
 
 // Styled components
 const LikeButton = styled.button`
@@ -23,180 +24,142 @@ const LikeCount = styled.span`
 `;
 
 const ViewDetailProposal = () => {
-  // State variables to store form data
-  const [name, setName] = useState("");
-  const [projectTitle, setProjectTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [goal, setGoal] = useState("");
-  const [deadline, setDeadline] = useState("");
+  const { id } = useParams();
+  const [proposal, setProposal] = useState({});
   const [likes, setLikes] = useState(0);
 
   useEffect(() => {
-    // Fetch initial like count if needed from the server or a database
-    const fetchLikes = async () => {
+    const fetchProposal = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/api/likes'); // Replace with your endpoint
-        setLikes(response.data.likes);
+        const response = await axios.get(`http://localhost:3000/api/proposals/${id}`);
+        setProposal(response.data);
+        setLikes(response.data.likes || 0); // Assuming likes is a field in your response
       } catch (error) {
-        console.error('Error fetching likes:', error);
+        console.error('Error fetching proposal:', error);
       }
     };
-    fetchLikes();
-  }, []);
 
-  // Function to handle form submission
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Here you can do something with the form data, like send it to a server
-    console.log("Form submitted:", { name, projectTitle, description, goal });
-    // Clearing the form fields after submission
-    setName("");
-    setProjectTitle("");
-    setDescription("");
-    setGoal("");
-  };
-
-  const handleLikeClick = () => {
-    setLikes((prevLikes) => prevLikes + 1);
-    // Optionally, send the updated like count to the server
-    axios.post('http://localhost:3000/api/likes', { likes: likes + 1 }) // Replace with your endpoint
-      .catch(error => console.error('Error updating likes:', error));
-  };
+    fetchProposal();
+  }, [id]);
 
   return (
     <div className="body-proposal">
       <div className="form-container">
-        <h2 className="form-heading">Proposal Submission</h2>
-        <form onSubmit={handleSubmit}>
+        <h2 className="form-heading">Proposal Details</h2>
+        <form>
           <div className="form-group">
-            <label htmlFor="name" className="form-label"></label>
             <input
               type="text"
-              id="name"
+              id="projectTitle"
               style={{
                 textAlign: "center",
                 paddingLeft: 0,
                 paddingRight: 0,
               }}
               placeholder="Sample Title"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              required
+              value={proposal.project_title || ''}
+              readOnly
               className="form-input"
             />
           </div>
 
           <div className="form-group">
-            <label htmlFor="projectTitle" className="form-label"></label>
             <input
               type="text"
-              id="projectTitle"
+              id="companyName"
               style={{
                 textAlign: "center",
                 paddingLeft: 0,
                 paddingRight: 0,
               }}
               placeholder="XYZ Enterprise"
-              value={projectTitle}
-              onChange={(e) => setProjectTitle(e.target.value)}
-              required
+              value={proposal.company_name || ''}
+              readOnly
               className="form-input"
             />
           </div>
 
           <div className="form-group">
-            <label htmlFor="projectTitle" className="form-label"></label>
             <input
               type="text"
-              id="projectTitle"
+              id="walletAddress"
               style={{
                 textAlign: "center",
                 paddingLeft: 0,
                 paddingRight: 0,
               }}
               placeholder="XYZ Enterprise Wallet Address"
-              value={projectTitle}
-              onChange={(e) => setProjectTitle(e.target.value)}
-              required
+              value={proposal.wallet_address || ''}
+              readOnly
               className="form-input"
             />
           </div>
 
           <div className="form-group">
-            <label htmlFor="description" className="form-label"></label>
-            <div className="styleit">
-              <textarea
-                id="description"
-                placeholder="Description"
-                style={{
-                  textAlign: "center",
-                  paddingLeft: 0,
-                  height: "130px",
-                  paddingRight: 0,
-                }}
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                required
-                className="form-textarea"
-              />
-            </div>
+            <textarea
+              id="description"
+              placeholder="Description"
+              style={{
+                textAlign: "center",
+                paddingLeft: 0,
+                height: "130px",
+                paddingRight: 0,
+              }}
+              value={proposal.description || ''}
+              readOnly
+              className="form-textarea"
+            />
+          </div>
 
-            <div className="form-group">
-              <label htmlFor="projectTitle" className="form-label"></label>
-              <input
-                type="text"
-                id="projectTitle"
-                style={{
-                  textAlign: "center",
-                  paddingLeft: 0,
-                  paddingRight: 0,
-                }}
-                placeholder="Amount"
-                value={projectTitle}
-                onChange={(e) => setProjectTitle(e.target.value)}
-                required
-                className="form-input"
-              />
-            </div>
+          <div className="form-group">
+            <input
+              type="text"
+              id="goalAmount"
+              style={{
+                textAlign: "center",
+                paddingLeft: 0,
+                paddingRight: 0,
+              }}
+              placeholder="Amount"
+              value={proposal.goal_amount || ''}
+              readOnly
+              className="form-input"
+            />
+          </div>
 
-            <div className="form-group">
-              <label htmlFor="projectTitle" className="form-label"></label>
-              <input
-                type="text"
-                id="projectTitle"
-                style={{
-                  textAlign: "center",
-                  paddingLeft: 0,
-                  paddingRight: 0,
-                }}
-                placeholder="Duration"
-                value={projectTitle}
-                onChange={(e) => setProjectTitle(e.target.value)}
-                required
-                className="form-input"
-              />
-            </div>
+          <div className="form-group">
+            <input
+              type="text"
+              id="duration"
+              style={{
+                textAlign: "center",
+                paddingLeft: 0,
+                paddingRight: 0,
+              }}
+              placeholder="Duration"
+              value={proposal.duration || ''}
+              readOnly
+              className="form-input"
+            />
+          </div>
 
-            <div className="form-group">
-              <label htmlFor="projectTitle" className="form-label"></label>
-              <input
-                type="text"
-                id="projectTitle"
-                style={{
-                  textAlign: "center",
-                  paddingLeft: 0,
-                  paddingRight: 0,
-                }}
-                placeholder="Date"
-                value={projectTitle}
-                onChange={(e) => setProjectTitle(e.target.value)}
-                required
-                className="form-input"
-              />
-            </div>
+          <div className="form-group">
+            <input
+              type="text"
+              id="deadline"
+              style={{
+                textAlign: "center",
+                paddingLeft: 0,
+                paddingRight: 0,
+              }}
+              placeholder="Date"
+              value={proposal.deadline || ''}
+              readOnly
+              className="form-input"
+            />
           </div>
         </form>
-        <LikeButton onClick={handleLikeClick}>
+        <LikeButton onClick={() => setLikes((prevLikes) => prevLikes + 1)}>
           👍
           <LikeCount>{likes}</LikeCount>
         </LikeButton>

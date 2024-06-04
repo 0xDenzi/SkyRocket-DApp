@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 
 // Styled components
 const OuterContainer = styled.div`
@@ -126,10 +127,11 @@ const PageButton = styled.button`
   }
 `;
 
-const App = () => {
+const ViewProposals = () => {
   const [proposals, setProposals] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const proposalsPerPage = 4;
+  const navigate = useNavigate(); // Initialize the useNavigate hook
 
   useEffect(() => {
     const fetchProposals = async () => {
@@ -150,8 +152,7 @@ const App = () => {
   }, []);
 
   const handleProposalClick = (id) => {
-    // Handle the click event for a proposal (e.g., navigate to a detail page)
-    alert(`Proposal ${id} clicked`);
+    navigate(`/viewdetailproposal/${id}`); // Navigate to the detail page
   };
 
   const handleLikeClick = (id) => {
@@ -179,8 +180,8 @@ const App = () => {
         </Header>
         <ProposalList>
           {currentProposals.map((proposal) => (
-            <ProposalItem key={proposal.id} onClick={() => handleProposalClick(proposal.id)}>
-              <ProposalDetails>
+            <ProposalItem key={proposal.id}>
+              <ProposalDetails onClick={() => handleProposalClick(proposal.id)}>
                 <ProposalTitle>{proposal.title}</ProposalTitle>
                 <ProposalDate>{proposal.dateCreated}</ProposalDate>
               </ProposalDetails>
@@ -189,7 +190,7 @@ const App = () => {
                   👍
                   <LikeCount>{proposal.likes}</LikeCount>
                 </LikeButton>
-                <ActionButton onClick={(e) => e.stopPropagation()}>View</ActionButton>
+                <ActionButton onClick={() => handleProposalClick(proposal.id)}>View</ActionButton> {/* Updated to handle click on View button */}
               </ProposalActions>
             </ProposalItem>
           ))}
@@ -206,4 +207,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default ViewProposals;
