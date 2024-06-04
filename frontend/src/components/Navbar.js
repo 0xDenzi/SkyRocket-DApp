@@ -76,6 +76,10 @@ const Navbar = () => {
           <Link to="/fund" className={`nav-link-fund ${location.pathname === "/fund" ? "active" : "inactive"}`}>Fund</Link>
           
         </div>
+        <div className="nav-links-fund">
+          <Link to="/" className={`nav-link-fund ${location.pathname === "/" ? "active" : "inactive"}`}>Proposal</Link>
+          
+        </div>
       </div>
       <button className="connect-wallet" onClick={connectWallet}>
         {walletAddress && walletAddress.length > 0
