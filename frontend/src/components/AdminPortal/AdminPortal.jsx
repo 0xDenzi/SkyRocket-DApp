@@ -150,7 +150,6 @@ const AdminPortal = () => {
         </div>
 
         <div className="funds-container">
-          <button className="release-funds-button" onClick={releaseFunds}>Release Funds</button>
           <button className="force-release-button" onClick={forceReleaseFunds}>Force Release Funds</button>
         </div>
       </div>
