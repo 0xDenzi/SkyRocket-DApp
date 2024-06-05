@@ -26,6 +26,89 @@ app.get('/api/proposals', async (req, res) => {
   }
 });
 
+// Endpoint to update the project goal amount
+app.post('/api/fund/updateGoal', async (req, res) => {
+  const { newGoal } = req.body;
+  const collection = await getCollection('Fund');
+  try {
+    await collection.updateOne({}, { $set: { proj_goal_amount: parseInt(newGoal, 10) } });
+    res.status(200).send('Goal amount updated successfully');
+  } catch (error) {
+    console.error('Error updating goal amount:', error);
+    res.status(500).send('Error updating goal amount');
+  }
+});
+
+// Endpoint to extend the project deadline
+app.post('/api/fund/extendDeadline', async (req, res) => {
+  const { newDeadline } = req.body;
+  const collection = await getCollection('Fund');
+  try {
+    await collection.updateOne({}, { $set: { deadline: parseInt(newDeadline, 10) } });
+    res.status(200).send('Deadline extended successfully');
+  } catch (error) {
+    console.error('Error extending deadline:', error);
+    res.status(500).send('Error extending deadline');
+  }
+});
+
+// Endpoint to delete all entries in the Fund table
+app.delete('/api/fund/releaseFunds', async (req, res) => {
+  const collection = await getCollection('Fund');
+  try {
+    await collection.deleteMany({});
+    res.status(200).send('All funds released successfully');
+  } catch (error) {
+    console.error('Error releasing funds:', error);
+    res.status(500).send('Error releasing funds');
+  }
+});
+
+
+// Endpoint to check if any entries exist in the Fund table
+app.get('/api/fund/exists', async (req, res) => {
+  try {
+    const collection = await getCollection('Fund');
+    const entryExists = await collection.findOne({});
+    if (entryExists) {
+      res.json({ exists: true });
+    } else {
+      // Explicitly send a success response indicating no entries exist.
+      res.status(200).json({ exists: false });
+    }
+  } catch (error) {
+    console.error('Error checking fund entries:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+
+app.post('/api/fund', async (req, res) => {
+  try {
+    const { walletAddress, proj_goal_amount, deadline, fundscollected } = req.body;
+    const collection = await getCollection('Fund');
+    const result = await collection.insertOne({
+      walletAddress: walletAddress,
+      proj_goal_amount: parseInt(proj_goal_amount, 10),
+      deadline: parseInt(deadline, 10),
+      fundscollected: parseInt(fundscollected, 10)
+    });
+    console.log("InsertOne Result:", result);  // Log the entire result object
+    if (result.acknowledged) {
+      const insertedDocument = await collection.findOne({_id: result.insertedId});
+      res.status(201).json(insertedDocument);
+    } else {
+      throw new Error('Insert operation failed!');
+    }
+  } catch (error) {
+    console.error('Error occurred:', error);
+    res.status(500).send('Error adding new fund entry: ${error.message}');
+  }
+});
+
+
+
+
 // Create a new proposal
 app.post('/api/proposals', async (req, res) => {
   try {
