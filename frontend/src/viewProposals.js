@@ -141,7 +141,7 @@ const ViewProposals = () => {
           id: proposal._id,
           title: proposal.project_title,
           dateCreated: new Date(proposal.deadline).toLocaleDateString(), // should be creation date of proposal
-          likes: 0, // Initialize likes to 0 or fetch from another collection if available
+          likes: proposal.likes,
         }));
         setProposals(data);
       } catch (error) {
@@ -158,7 +158,7 @@ const ViewProposals = () => {
   const handleLikeClick = (id) => {
     setProposals((prevProposals) =>
       prevProposals.map((proposal) =>
-        proposal.id === id ? { ...proposal, likes: proposal.likes + 1 } : proposal
+        proposal.id === id ? { ...proposal, likes: +proposal.likes + 1 } : proposal
       )
     );
   };
@@ -190,14 +190,19 @@ const ViewProposals = () => {
                   👍
                   <LikeCount>{proposal.likes}</LikeCount>
                 </LikeButton>
-                <ActionButton onClick={() => handleProposalClick(proposal.id)}>View</ActionButton> {/* Updated to handle click on View button */}
+                <ActionButton onClick={() => handleProposalClick(proposal.id)}>View</ActionButton>
               </ProposalActions>
             </ProposalItem>
           ))}
         </ProposalList>
         <Pagination>
           {pageNumbers.map((number) => (
-            <PageButton key={number} onClick={() => setCurrentPage(number)} disabled={currentPage === number}>
+            <PageButton
+              key={number}
+              onClick={() => setCurrentPage(number)}
+              isCurrent={currentPage === number}
+              disabled={currentPage === number}
+            >
               {number}
             </PageButton>
           ))}

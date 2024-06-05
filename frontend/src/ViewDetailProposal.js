@@ -33,14 +33,15 @@ const ViewDetailProposal = () => {
       try {
         const response = await axios.get(`http://localhost:3000/api/proposals/${id}`);
         setProposal(response.data);
-        setLikes(response.data.likes || 0); // Assuming likes is a field in your response
+        setLikes(Number(response.data.likes) || 0);  // Ensure likes is a number
       } catch (error) {
         console.error('Error fetching proposal:', error);
       }
     };
-
+  
     fetchProposal();
   }, [id]);
+  
 
   return (
     <div className="body-proposal">
@@ -48,6 +49,7 @@ const ViewDetailProposal = () => {
         <h2 className="form-heading">Proposal Details</h2>
         <form>
           <div className="form-group">
+          <h5>Project Title</h5>
             <input
               type="text"
               id="projectTitle"
@@ -64,6 +66,7 @@ const ViewDetailProposal = () => {
           </div>
 
           <div className="form-group">
+          <h5>Company Name</h5>
             <input
               type="text"
               id="companyName"
@@ -79,7 +82,7 @@ const ViewDetailProposal = () => {
             />
           </div>
 
-          <div className="form-group">
+          {/* <div className="form-group">
             <input
               type="text"
               id="walletAddress"
@@ -93,9 +96,10 @@ const ViewDetailProposal = () => {
               readOnly
               className="form-input"
             />
-          </div>
+          </div> */}
 
           <div className="form-group">
+          <h5>Description</h5>
             <textarea
               id="description"
               placeholder="Description"
@@ -112,6 +116,7 @@ const ViewDetailProposal = () => {
           </div>
 
           <div className="form-group">
+            <h5>Goal Amount</h5>
             <input
               type="text"
               id="goalAmount"
@@ -127,7 +132,7 @@ const ViewDetailProposal = () => {
             />
           </div>
 
-          <div className="form-group">
+          {/* <div className="form-group">
             <input
               type="text"
               id="duration"
@@ -141,9 +146,10 @@ const ViewDetailProposal = () => {
               readOnly
               className="form-input"
             />
-          </div>
+          </div> */}
 
           <div className="form-group">
+          <h5>Deadline</h5>
             <input
               type="text"
               id="deadline"
