@@ -121,31 +121,54 @@
             projects[projectCounter - 1].amountRaised += _amount;
 
             emit TokensFunded(_account, projectCounter - 1, _token, _amount);
+
+            // If goal amount is reached upon funding from a user, transfer the amount collected
+            if (projects[projectCounter - 1].amountRaised >= projects[projectCounter - 1].goalAmount)
+            {
+                address receiver = projects[projectCounter - 1].projectWallet;
+
+                uint256 mDAIbalance = IERC20(mDAI).balanceOf(address(this));
+                uint256 mUSDCbalance = IERC20(mUSDC).balanceOf(address(this));
+                uint256 mUSDTbalance = IERC20(mUSDT).balanceOf(address(this));
+
+                uint256 totalAmount = mDAIbalance + mUSDCbalance + mUSDTbalance;
+
+                IERC20(mDAI).transfer(receiver, IERC20(mDAI).balanceOf(address(this)));
+                IERC20(mUSDC).transfer(receiver,IERC20(mUSDC).balanceOf(address(this)));
+                IERC20(mUSDT).transfer(receiver,IERC20(mUSDT).balanceOf(address(this)));
+                
+
+                emit FundsReleased(receiver, projectCounter - 1, totalAmount);
+
+                Pause();
+                emit Paused(pause);
+            }
+
         }
 
-        /// @notice Transfers funds from this contract to the fundseekers.
-        function releaseFundsToProject() external onlyAdmin {
-            require(block.timestamp > projects[projectCounter - 1].deadline,"Deadline not reached yet");
-            require(projects[projectCounter - 1].amountRaised >=projects[projectCounter - 1].goalAmount,"Goal not reached yet");
+        // /// @notice Transfers funds from this contract to the fundseekers.
+        // function releaseFundsToProject() external onlyAdmin {
+        //     require(block.timestamp > projects[projectCounter - 1].deadline,"Deadline not reached yet");
+        //     require(projects[projectCounter - 1].amountRaised >=projects[projectCounter - 1].goalAmount,"Goal not reached yet");
 
-            address receiver = projects[projectCounter - 1].projectWallet;
+        //     address receiver = projects[projectCounter - 1].projectWallet;
 
-            uint256 mDAIbalance = IERC20(mDAI).balanceOf(address(this));
-            uint256 mUSDCbalance = IERC20(mUSDC).balanceOf(address(this));
-            uint256 mUSDTbalance = IERC20(mUSDT).balanceOf(address(this));
+        //     uint256 mDAIbalance = IERC20(mDAI).balanceOf(address(this));
+        //     uint256 mUSDCbalance = IERC20(mUSDC).balanceOf(address(this));
+        //     uint256 mUSDTbalance = IERC20(mUSDT).balanceOf(address(this));
 
-            uint256 totalAmount = mDAIbalance + mUSDCbalance + mUSDTbalance;
+        //     uint256 totalAmount = mDAIbalance + mUSDCbalance + mUSDTbalance;
 
-            IERC20(mDAI).transfer(receiver, IERC20(mDAI).balanceOf(address(this)));
-            IERC20(mUSDC).transfer(receiver,IERC20(mUSDC).balanceOf(address(this)));
-            IERC20(mUSDT).transfer(receiver,IERC20(mUSDT).balanceOf(address(this)));
+        //     IERC20(mDAI).transfer(receiver, IERC20(mDAI).balanceOf(address(this)));
+        //     IERC20(mUSDC).transfer(receiver,IERC20(mUSDC).balanceOf(address(this)));
+        //     IERC20(mUSDT).transfer(receiver,IERC20(mUSDT).balanceOf(address(this)));
             
 
-            emit FundsReleased(receiver, projectCounter - 1, totalAmount);
+        //     emit FundsReleased(receiver, projectCounter - 1, totalAmount);
 
-            Pause();
-            emit Paused(pause);
-        }
+        //     Pause();
+        //     emit Paused(pause);
+        // }
 
         /// @notice Force Transfers funds from this contract to the fundseekers.
         function forceReleaseFunds() external onlyAdmin {
@@ -208,11 +231,11 @@
             );
         }
 
-        function Pause() private onlyAdmin {
+        function Pause() private {
             pause = true;
         }
 
-        function Unpause() private onlyAdmin {
+        function Unpause() private {
             pause = false;
         }
     }

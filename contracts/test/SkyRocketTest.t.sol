@@ -195,7 +195,6 @@ contract FundingTest is Test {
 
         vm.prank(deployer);
         vm.expectRevert();
-        project.releaseFundsToProject();
         vm.stopPrank();
     }
 
@@ -233,7 +232,6 @@ contract FundingTest is Test {
 
         vm.prank(deployer);
         vm.expectRevert();
-        project.releaseFundsToProject();
         vm.stopPrank();
     }
 
@@ -284,7 +282,7 @@ contract FundingTest is Test {
     }
 
 
-    function testSimulateProcedureWithAdminRelease() public addProject {
+    function testSimulateProcedureWithDefaultRelease() public addProject {
         address funder0 = makeAddr("funder0");
         address funder1 = makeAddr("funder1");
         address funder2 = makeAddr("funder2");
@@ -317,14 +315,6 @@ contract FundingTest is Test {
         assert(sktToken.balanceOf(address(funder0)) == 400e6);
         assert(sktToken.balanceOf(address(funder1)) == 300e6);
         assert(sktToken.balanceOf(address(funder2)) == 300e6);
-
-        project.currentProjectDetails();
-
-        vm.warp(block.timestamp + 15 days);
-
-        vm.prank(deployer);
-        project.releaseFundsToProject();
-        vm.stopPrank();
 
         assert(mockusdc.balanceOf(address(address(projectAddress))) == 400e6);
         assert(mockdai.balanceOf(address(address(projectAddress))) == 300e6);
@@ -455,7 +445,6 @@ contract FundingTest is Test {
         vm.warp(block.timestamp + 15 days);
 
         vm.prank(deployer);
-        project.releaseFundsToProject();
         vm.stopPrank();
 
         assert(mockusdc.balanceOf(address(address(projectAddress))) == 400e6);
@@ -500,7 +489,6 @@ contract FundingTest is Test {
         vm.warp(block.timestamp + 15 days);
 
         vm.prank(deployer);
-        project.releaseFundsToProject();
         vm.stopPrank();
 
         assert(mockusdt.balanceOf(address(address(projectAddress))) == 1000e6);
@@ -537,7 +525,6 @@ contract FundingTest is Test {
         vm.warp(block.timestamp + 15 days);
 
         vm.prank(deployer);
-        project.releaseFundsToProject();
         vm.stopPrank();
 
         assert(mockusdc.balanceOf(address(address(projectAddress))) == 1000e6);
@@ -574,7 +561,6 @@ contract FundingTest is Test {
         vm.warp(block.timestamp + 15 days);
 
         vm.prank(deployer);
-        project.releaseFundsToProject();
         vm.stopPrank();
 
         assert(mockdai.balanceOf(address(address(projectAddress))) == 1000e6);
@@ -727,7 +713,6 @@ contract FundingTest is Test {
         vm.warp(block.timestamp + 15 days);
 
         vm.prank(deployer);
-        project.releaseFundsToProject();
         vm.stopPrank();
     }
 

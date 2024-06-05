@@ -11,6 +11,8 @@ const Navbar = () => {
   useEffect(() => {
     getCurrentWalletConnected();
     addWalletListener();
+    localStorage.setItem('walletAddress', walletAddress);
+    window.dispatchEvent(new CustomEvent('walletAddressUpdated', { detail: { walletAddress } }));
   }, [walletAddress]);
 
   const connectWallet = async () => {
@@ -77,9 +79,10 @@ const Navbar = () => {
           
         </div>
         <div className="nav-links-fund">
-          <Link to="/" className={`nav-link-fund ${location.pathname === "/" ? "active" : "inactive"}`}>Proposal</Link>
+          <Link to="/proposal" className={`nav-link-fund ${location.pathname === "/proposal" ? "active" : "inactive"}`}>Proposals</Link>
           
         </div>
+        
       </div>
       <button className="connect-wallet" onClick={connectWallet}>
         {walletAddress && walletAddress.length > 0

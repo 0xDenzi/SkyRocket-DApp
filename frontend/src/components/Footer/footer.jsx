@@ -4,7 +4,7 @@ import './footer.css'
 const footer = () => {
   return (
     <div class="copyright">
-        <p>&#169; Bhai-Loug all rights reserved</p>
+        <p>&#169; Sky Rocket All Rights Reserved</p>
         <div class="social">
             <FaFacebook/>
             <FaGithub/>
