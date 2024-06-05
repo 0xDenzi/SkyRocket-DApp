@@ -134,14 +134,13 @@ const ViewProposals = () => {
   const navigate = useNavigate(); // Initialize the useNavigate hook
 
   useEffect(() => {
-    
     const fetchProposals = async () => {
       try {
         const response = await axios.get('http://localhost:3000/api/proposals');
         const data = response.data.map((proposal) => ({
           id: proposal._id,
-          title: proposal.project_title,
-          dateCreated: new Date(proposal.deadline).toLocaleDateString(), // should be creation date of proposal
+          title: proposal.project_title,  // Ensure the property name matches what's returned from the API
+          dateCreated: new Date(proposal.deadline).toLocaleDateString(),
           likes: proposal.likes,
         }));
         setProposals(data);
@@ -150,54 +149,42 @@ const ViewProposals = () => {
       }
     };
     fetchProposals();
-
-    const handleWalletAddressChange = (event) => {
-      // Do something with the new wallet address
-      console.log("New wallet address:", event.detail.walletAddress);
-      // You could set it to state here if needed, or trigger a fetch/update
-    };
-
-
-    window.addEventListener('walletAddressUpdated', handleWalletAddressChange);
-
-    return () => {
-      window.removeEventListener('walletAddressUpdated', handleWalletAddressChange);
-    };
-
-
   }, []);
 
   const handleProposalClick = (id) => {
-    navigate(`/viewdetailproposal/${id}`); // Navigate to the detail page
+    navigate(`/viewdetailproposal/${id}`);
   };
 
-  const handleLikeClick = async (id, title) => {
+  const handleLikeClick = async (id) => {
+    const proposal = proposals.find(p => p.id === id);  // Find the proposal by ID
+    if (!proposal) {
+      console.error("Proposal not found");
+      return;
+    }
+
     const walletAddress = localStorage.getItem('walletAddress');
     if (!walletAddress) {
       console.log("No wallet connected");
       return;
     }
-  
+
+    console.log("Project title is:", proposal.title); // Check the title being passed
+
     try {
-      // Ensure the keys match what your server expects
       const response = await axios.post('http://localhost:3000/api/toggleLike', {
-        projectTitle: title,  // Ensure this matches the backend expectation
+        projectTitle: proposal.title,
         userWalletAddress: walletAddress
       });
-  
-      // Update the local state based on the new like status
-      setProposals((prevProposals) =>
-        prevProposals.map((proposal) =>
-          proposal.id === id ? { ...proposal, likes: response.data.newLikeStatus ? proposal.likes + 1 : proposal.likes - 1 } : proposal
+
+      setProposals(prevProposals =>
+        prevProposals.map(p =>
+          p.id === id ? { ...p, likes: response.data.newLikeStatus ? p.likes + 1 : p.likes - 1 } : p
         )
       );
     } catch (error) {
       console.error('Error updating like:', error);
     }
   };
-  
-  
-  
 
   const indexOfLastProposal = currentPage * proposalsPerPage;
   const indexOfFirstProposal = indexOfLastProposal - proposalsPerPage;
@@ -216,29 +203,24 @@ const ViewProposals = () => {
         </Header>
         <ProposalList>
           {currentProposals.map((proposal) => (
-            <ProposalItem key={proposal.id}>
-              <ProposalDetails onClick={() => handleProposalClick(proposal.id)}>
+            <ProposalItem key={proposal.id} onClick={() => handleProposalClick(proposal.id)}>
+              <ProposalDetails>
                 <ProposalTitle>{proposal.title}</ProposalTitle>
                 <ProposalDate>{proposal.dateCreated}</ProposalDate>
               </ProposalDetails>
               <ProposalActions>
                 <LikeButton onClick={(e) => { e.stopPropagation(); handleLikeClick(proposal.id); }}>
-                  👍
-                  <LikeCount>{proposal.likes}</LikeCount>
+                  👍 <LikeCount>{proposal.likes}</LikeCount>
                 </LikeButton>
-                <ActionButton onClick={() => handleProposalClick(proposal.id)}>View</ActionButton>
+                <ActionButton>View</ActionButton>
               </ProposalActions>
             </ProposalItem>
           ))}
         </ProposalList>
         <Pagination>
-          {pageNumbers.map((number) => (
-            <PageButton
-              key={number}
-              onClick={() => setCurrentPage(number)}
-              isCurrent={currentPage === number}
-              disabled={currentPage === number}
-            >
+          {pageNumbers.map(number => (
+            <PageButton key={number} onClick={() => setCurrentPage(number)}
+                        disabled={currentPage === number}>
               {number}
             </PageButton>
           ))}
