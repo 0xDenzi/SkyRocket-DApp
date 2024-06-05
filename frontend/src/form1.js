@@ -172,7 +172,7 @@ const Form1 = () => {
   const [provider, setProvider] = useState(null);
   const [signer, setSigner] = useState(null);
   const [contract, setContract] = useState(null);
-  const [projectContractAddress, setProjectContractAddress] = useState('0xBe1A84a1c750A9Be22777DB92da4024D2A0f0689');
+  const [projectContractAddress, setProjectContractAddress] = useState('0x105103266148367DD3d2C0C9501A7ad0eDfB7D41');
   const WETH_ABI = [
     "function approve(address spender, uint256 amount) external returns (bool)",
     "function transferFrom(address from, address to, uint256 amount) external returns (bool)"
@@ -190,7 +190,7 @@ const Form1 = () => {
       if (window.ethereum) {
         const newProvider = new ethers.providers.Web3Provider(window.ethereum);
         const newSigner = newProvider.getSigner();
-        const newContract = new ethers.Contract('0x38C64A1a06d2937CC0B24FA167EC5f99a34258a0', FundingABI.abi, newSigner);  // Your Funding.sol address
+        const newContract = new ethers.Contract('0x30cCA96472c9A47b3380d4403B4dDa4E70769609', FundingABI.abi, newSigner);  // Your Funding.sol address
         setProvider(newProvider);
         setSigner(newSigner);
         setContract(newContract);
@@ -282,7 +282,7 @@ const Form1 = () => {
     const adjustedDeadline = Math.floor(Date.now() / 1000) + parseInt(deadline) * 60; // Convert deadline from minutes to seconds
   
     try {
-      const approveTx = await wethContract.approve('0x38C64A1a06d2937CC0B24FA167EC5f99a34258a0', wethAmount); //funding
+      const approveTx = await wethContract.approve('0x30cCA96472c9A47b3380d4403B4dDa4E70769609', wethAmount); //funding
       await approveTx.wait();
       
       // const approveTx2 = await usdcContract.approve(projectContractAddress, usdcAmount);
