@@ -26,6 +26,19 @@ app.get('/api/proposals', async (req, res) => {
   }
 });
 
+// Create a new proposal
+app.post('/api/proposals', async (req, res) => {
+  try {
+    const collection = await getCollection('Project');
+    const proposal = req.body;
+    await collection.insertOne(proposal);
+    res.status(201).send('Proposal created successfully');
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Error creating new proposal');
+  }
+});
+
 // Toggle like
 app.post('/api/toggleLike', async (req, res) => {
   const { projectTitle, userWalletAddress } = req.body;  // Use consistent naming across frontend and backend
