@@ -24,6 +24,23 @@ const Wrapper = styled.div`
   border-radius: 20px;
   overflow: hidden;
   box-shadow: 0 0 8px 2px #558aa0;
+  position: relative; // Added to position the submit button absolutely within the wrapper
+`;
+
+const SubmitButton = styled.button`
+  position: absolute;
+  bottom: 10px; // Adjust according to your layout
+  right: 10px; // Adjust according to your layout
+  background-color: #FF531F;
+  border: none;
+  color: white;
+  cursor: pointer;
+  padding: 10px 20px;
+  border-radius: 5px;
+
+  &:hover {
+    background-color: #e74c3c;
+  }
 `;
 
 const Header = styled.div`
@@ -109,7 +126,7 @@ const Pagination = styled.div`
 `;
 
 const PageButton = styled.button`
-  background-color: #FF531F;
+  background-color: #7f8c8d;
   border: none;
   color: white;
   cursor: pointer;
@@ -122,7 +139,7 @@ const PageButton = styled.button`
   }
 
   &:disabled {
-    background-color: #7f8c8d;
+    background-color: #FF531F;
     cursor: not-allowed;
   }
 `;
@@ -225,6 +242,7 @@ const ViewProposals = () => {
             </PageButton>
           ))}
         </Pagination>
+        <SubmitButton onClick={() => navigate('/createproposal')}>Submit Proposal</SubmitButton>
       </Wrapper>
     </OuterContainer>
   );

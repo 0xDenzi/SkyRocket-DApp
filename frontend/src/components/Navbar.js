@@ -75,17 +75,14 @@ const Navbar = () => {
           <BsFillRocketTakeoffFill />
         </Link>
         <div className="nav-links-fund">
-          <Link to="/fund" className={`nav-link-fund ${location.pathname === "/fund" ? "active" : "inactive"}`}>Fund Proposal</Link>
+          <Link to="/fund" className={`nav-link-fund ${location.pathname === "/fund" ? "active" : "inactive"}`}>Fund</Link>
           
         </div>
         <div className="nav-links-fund">
-          <Link to="/proposal" className={`nav-link-fund ${location.pathname === "/proposal" ? "active" : "inactive"}`}>View Proposals</Link>
+          <Link to="/proposal" className={`nav-link-fund ${location.pathname === "/proposal" ? "active" : "inactive"}`}>Proposals</Link>
           
         </div>
-        <div className="nav-links-fund">
-          <Link to="/createproposal" className={`nav-link-fund ${location.pathname === "/createproposal" ? "active" : "inactive"}`}>Submit Proposal</Link>
-          
-        </div>
+        
       </div>
       <button className="connect-wallet" onClick={connectWallet}>
         {walletAddress && walletAddress.length > 0

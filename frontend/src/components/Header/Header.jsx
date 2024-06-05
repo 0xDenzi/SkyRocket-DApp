@@ -17,7 +17,7 @@ const Header = () => {
             <BootstrapNavbar.Toggle aria-controls="basic-navnar-nav" />
             <BootstrapNavbar.Collapse className="NC" id="basic-navbar-nav">
               <Nav className='navbar-nav'>
-                <Nav.Link as={Link} to="/home"><FaBuilding />Home</Nav.Link>
+                <Nav.Link as={Link} to="/"><FaBuilding />Home</Nav.Link>
                 <Nav.Link as={Link} to='/about'><FaBullhorn />About</Nav.Link>
                 <Nav.Link href="https://skyrocket-1.gitbook.io/docs"><FaBuffer />Docs</Nav.Link>
                 <Link to="/fund">
@@ -34,7 +34,7 @@ const Header = () => {
           <Link to="/fund">
             <button>Start Funding</button>
           </Link>
-          <Link to="/bajwa">
+          <Link to="/proposal">
             <button>Submit Project</button>
           </Link>
         </div>
