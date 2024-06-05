@@ -26,6 +26,31 @@ app.get('/api/proposals', async (req, res) => {
   }
 });
 
+// Toggle like
+app.post('/api/toggleLike', async (req, res) => {
+  const { projectTitle, userWalletAddress } = req.body;  // Use consistent naming across frontend and backend
+  try {
+    const likesCollection = await getCollection('Likes');
+    const projectCollection = await getCollection('Project');
+
+    // Check if the like already exists
+    const existingLike = await likesCollection.findOne({ projectTitle: projectTitle, userWalletAddress: userWalletAddress });
+
+    if (existingLike) {
+      await likesCollection.deleteOne({ projectTitle: projectTitle, userWalletAddress: userWalletAddress });
+      await projectCollection.updateOne({ project_title: projectTitle }, { $inc: { likes: -1 } });
+      res.json({ newLikeStatus: false });
+    } else {
+      await likesCollection.insertOne({ projectTitle: projectTitle, userWalletAddress: userWalletAddress, HasLiked: true });
+      await projectCollection.updateOne({ project_title: projectTitle }, { $inc: { likes: 1 } });
+      res.json({ newLikeStatus: true });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Error processing toggle like');
+  }
+});
+
 
 
 // Assuming this is part of your express route handler:

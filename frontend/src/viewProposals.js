@@ -134,6 +134,7 @@ const ViewProposals = () => {
   const navigate = useNavigate(); // Initialize the useNavigate hook
 
   useEffect(() => {
+    
     const fetchProposals = async () => {
       try {
         const response = await axios.get('http://localhost:3000/api/proposals');
@@ -149,19 +150,54 @@ const ViewProposals = () => {
       }
     };
     fetchProposals();
+
+    const handleWalletAddressChange = (event) => {
+      // Do something with the new wallet address
+      console.log("New wallet address:", event.detail.walletAddress);
+      // You could set it to state here if needed, or trigger a fetch/update
+    };
+
+
+    window.addEventListener('walletAddressUpdated', handleWalletAddressChange);
+
+    return () => {
+      window.removeEventListener('walletAddressUpdated', handleWalletAddressChange);
+    };
+
+
   }, []);
 
   const handleProposalClick = (id) => {
     navigate(`/viewdetailproposal/${id}`); // Navigate to the detail page
   };
 
-  const handleLikeClick = (id) => {
-    setProposals((prevProposals) =>
-      prevProposals.map((proposal) =>
-        proposal.id === id ? { ...proposal, likes: +proposal.likes + 1 } : proposal
-      )
-    );
+  const handleLikeClick = async (id, title) => {
+    const walletAddress = localStorage.getItem('walletAddress');
+    if (!walletAddress) {
+      console.log("No wallet connected");
+      return;
+    }
+  
+    try {
+      // Ensure the keys match what your server expects
+      const response = await axios.post('http://localhost:3000/api/toggleLike', {
+        projectTitle: title,  // Ensure this matches the backend expectation
+        userWalletAddress: walletAddress
+      });
+  
+      // Update the local state based on the new like status
+      setProposals((prevProposals) =>
+        prevProposals.map((proposal) =>
+          proposal.id === id ? { ...proposal, likes: response.data.newLikeStatus ? proposal.likes + 1 : proposal.likes - 1 } : proposal
+        )
+      );
+    } catch (error) {
+      console.error('Error updating like:', error);
+    }
   };
+  
+  
+  
 
   const indexOfLastProposal = currentPage * proposalsPerPage;
   const indexOfFirstProposal = indexOfLastProposal - proposalsPerPage;

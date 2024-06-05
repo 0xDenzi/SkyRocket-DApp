@@ -11,6 +11,8 @@ const Navbar = () => {
   useEffect(() => {
     getCurrentWalletConnected();
     addWalletListener();
+    localStorage.setItem('walletAddress', walletAddress);
+    window.dispatchEvent(new CustomEvent('walletAddressUpdated', { detail: { walletAddress } }));
   }, [walletAddress]);
 
   const connectWallet = async () => {
@@ -73,11 +75,15 @@ const Navbar = () => {
           <BsFillRocketTakeoffFill />
         </Link>
         <div className="nav-links-fund">
-          <Link to="/fund" className={`nav-link-fund ${location.pathname === "/fund" ? "active" : "inactive"}`}>Fund</Link>
+          <Link to="/fund" className={`nav-link-fund ${location.pathname === "/fund" ? "active" : "inactive"}`}>Fund Proposal</Link>
           
         </div>
         <div className="nav-links-fund">
-          <Link to="/proposal" className={`nav-link-fund ${location.pathname === "/proposal" ? "active" : "inactive"}`}>Proposal</Link>
+          <Link to="/proposal" className={`nav-link-fund ${location.pathname === "/proposal" ? "active" : "inactive"}`}>View Proposals</Link>
+          
+        </div>
+        <div className="nav-links-fund">
+          <Link to="/createproposal" className={`nav-link-fund ${location.pathname === "/createproposal" ? "active" : "inactive"}`}>Submit Proposal</Link>
           
         </div>
       </div>
