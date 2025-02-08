@@ -65,7 +65,7 @@ Before setting up the project, ensure you have the following installed:
 
      ```bash
      cd contracts
-     npm install
+     forge build
      ```
 
    - **Frontend:**
